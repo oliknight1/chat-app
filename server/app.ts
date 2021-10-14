@@ -1,10 +1,12 @@
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
-import { auth } from './config/firebase';
-dotenv.config()
+import { user_router } from './controllers/routes/user_routes';
+
+dotenv.config();
+
 export const app = express();
+
 app.use( cors() );
 app.use( express.json() );
-
-console.log( auth )
+app.use( '/api/user', user_router );
