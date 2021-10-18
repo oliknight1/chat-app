@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { auth } from '../../config/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 export const user_router = express.Router();
 
@@ -28,5 +28,11 @@ user_router.post( '/register', ( req : Request, _res : Response ) => {
 		console.log( 'itnhas errored', Error );
 	} );
 
+} );
+
+user_router.post( '/logout', ( req : Request, res : Response ) => {
+	signOut( auth ).then(
+
+	);
 } );
 
