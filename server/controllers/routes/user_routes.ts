@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { auth } from '../../config/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 
 export const user_router = express.Router();
 
@@ -12,8 +12,7 @@ user_router.post( '/login', ( req : Request, res : Response ) => {
 	const password : string = req.body.password;
 	signInWithEmailAndPassword( auth, email, password )
 		.then( ( user_credential ) => {
-			const uid = user_credential.user.uid;
-			res.status( 200 ).send( uid );
+			res.status( 200 ).send( user_credential.user.displayName );
 		} )
 	.catch();
 } );
@@ -21,11 +20,16 @@ user_router.post( '/login', ( req : Request, res : Response ) => {
 user_router.post( '/register', ( req : Request, res : Response ) => {
 	const email : string = req.body.email;
 	const password : string = req.body.password;
-	console.log( 'run' );
 	createUserWithEmailAndPassword( auth, email, password )
 		.then( ( user_credential ) => {
-			const uid = user_credential.user.uid;
-			res.status( 201 ).send( uid );
+			updateProfile( user_credential.user, {
+				displayName: 'test'
+			} ).then( () => {
+				res.status( 201 ).send( user_credential.user.displayName );
+			} )
+			.catch( Error => {
+
+			} );
 		} )
 	.catch( ( Error ) => {
 		console.log( 'itnhas errored', Error );
