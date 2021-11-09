@@ -30,7 +30,16 @@ const Register = () => {
 		} catch( e ) {
 			const code = ( e as firebase.FirebaseError ).code;
 			console.log( code )
-			set_error( 'There was an error creating the account' );
+			switch( code ) {
+				case ( 'auth/weak-password' ) :
+					set_error( 'Password is too weak' );
+					break;
+				case ( 'auth/email-already-in-use' ) :
+					set_error( 'Email is already in use' );
+					break;
+				default :
+					set_error( 'There was an error creating the account' );
+			}
 		}
 	}
 	return (
