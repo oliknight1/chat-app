@@ -7,10 +7,11 @@ type TextInputProps = {
 	icon : ReactElement,
 	state: string,
 	type : string
-	set_state:  React.Dispatch<React.SetStateAction<any>>
+	set_state: React.Dispatch<React.SetStateAction<any>>,
+	placeholder : string
 }
 
-const TextInput = ( { id, label, type, icon, state, set_state } : TextInputProps ) => {
+const TextInput = ( { id, label, type, icon, state, set_state, placeholder } : TextInputProps ) => {
 	const handle_change = ( e : React.FormEvent<HTMLInputElement> ) => {
 		set_state( e.currentTarget.value.trim() );
 	}
@@ -25,7 +26,7 @@ const TextInput = ( { id, label, type, icon, state, set_state } : TextInputProps
 					pointerEvents='none'
 					children={ icon }
 				/>
-				<Input variant='outline' size='lg' type={ type } placeholder='Enter a username' value={ state } onChange={ handle_change } />
+				<Input variant='outline' size='lg' type={ type } placeholder={ placeholder } value={ state } onChange={ handle_change } />
 			</InputGroup>
 		</FormControl>
 	)

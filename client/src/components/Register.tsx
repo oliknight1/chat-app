@@ -49,10 +49,43 @@ const Register = () => {
 		<>
 			<Flex alignItems='center' height='100vh' background='transparent'>
 				<UserAuthForm title='Create an account' button_text='Register' handle_submit={ handle_submit } error={ error } loading={ loading }>
-					<TextInput id='username' label='Username' type='text' state={ username } set_state={ set_username } icon={ <InfoIcon textAlign='center' color='gray.300'/>  } />
-					<TextInput id='email' label='Email' type='email' state={ email } set_state={ set_email } icon={ <EmailIcon textAlign='center' color='gray.300'/>  } />
-					<TextInput id='password' label='Password' type='password' state={ password } set_state={ set_password } icon={ <LockIcon textAlign='center' color='gray.300'/>  } />
-					<TextInput id='password_confirm' label='Confirm Password' type='password' state={ password_confirm } set_state={ set_password_confirm } icon={ <LockIcon textAlign='center' color='gray.300'/>  } />
+					<TextInput
+						id='username'
+						label='Username'
+						type='text'
+						state={ username }
+						set_state={ set_username }
+						icon={ <InfoIcon textAlign='center' color='gray.300'/> }
+						placeholder='Please enter a username'
+						
+					/>
+					<TextInput
+						id='email'
+						label='Email'
+						type='email'
+						state={ email }
+						set_state={ set_email }
+						icon={ <EmailIcon textAlign='center' color='gray.300'/> }
+						placeholder='Please enter an email'
+					/>
+					<TextInput
+						id='password'
+						label='Password'
+						type='password'
+						state={ password }
+						set_state={ set_password }
+						icon={ <LockIcon textAlign='center' color='gray.300'/> }
+						placeholder='Please enter a password'
+					/>
+					<TextInput
+						id='password_confirm'
+						label='Confirm Password'
+						type='password'
+						state={ password_confirm }
+						set_state={ set_password_confirm }
+						icon={ <LockIcon textAlign='center' color='gray.300'/> }
+						placeholder='Please confirm your password'
+					/>
 				</UserAuthForm>
 			</Flex>
 			<BackgroundImage />
