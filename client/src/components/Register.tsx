@@ -16,6 +16,7 @@ const Register = () => {
 	const { signup } = useAuth();
 
 	const handle_submit = async ( e : Event ) => {
+		e.preventDefault();
 		if( username === '' || email === '' || password === '' || password_confirm === '' ) {
 			set_error( 'Please fill out all required fields' );
 			return;
