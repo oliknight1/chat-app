@@ -13,6 +13,7 @@ const Register = () => {
 	const [ password, set_password ] = useState<string>( '' );
 	const [ password_confirm, set_password_confirm ] = useState<string>( '' );
 	const [ error, set_error ] = useState<string | null>( null );
+	const [ loading, set_loading ] = useState<boolean>( false );
 	const { signup } = useAuth();
 
 	const handle_submit = async ( e : Event ) => {
@@ -27,10 +28,10 @@ const Register = () => {
 			return;
 		}
 		try {
+			set_loading( true )
 			await signup( email, password );
 		} catch( e ) {
 			const code = ( e as firebase.FirebaseError ).code;
-			console.log( code )
 			switch( code ) {
 				case ( 'auth/weak-password' ) :
 					set_error( 'Password is too weak' );
@@ -42,11 +43,12 @@ const Register = () => {
 					set_error( 'There was an error creating the account' );
 			}
 		}
+		set_loading( false );
 	}
 	return (
 		<>
 			<Flex alignItems='center' height='100vh' background='transparent'>
-				<UserAuthForm title='Create an account' button_text='Register' handle_submit={ handle_submit } error={ error }>
+				<UserAuthForm title='Create an account' button_text='Register' handle_submit={ handle_submit } error={ error } loading={ loading }>
 					<TextInput id='username' label='Username' type='text' state={ username } set_state={ set_username } icon={ <InfoIcon textAlign='center' color='gray.300'/>  } />
 					<TextInput id='email' label='Email' type='email' state={ email } set_state={ set_email } icon={ <EmailIcon textAlign='center' color='gray.300'/>  } />
 					<TextInput id='password' label='Password' type='password' state={ password } set_state={ set_password } icon={ <LockIcon textAlign='center' color='gray.300'/>  } />

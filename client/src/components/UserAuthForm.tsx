@@ -1,14 +1,16 @@
 import { Box, Text, Flex, Button, Alert, Stack, AlertIcon } from "@chakra-ui/react";
 
 export interface UserAuthFormProps {
-	children: JSX.Element[] 
+	children: JSX.Element[], 
 	title : string,
 	button_text: string,
 	handle_submit: React.Dispatch<React.SetStateAction<any>>,
-	error: string | null
+	error: string | null,
+	loading: boolean
+
 }
 
-const UserAuthForm = ( { children, title, button_text, handle_submit, error } : UserAuthFormProps ) => {
+const UserAuthForm = ( { children, title, button_text, handle_submit, error, loading } : UserAuthFormProps ) => {
 	return (
 		<Box bg='white' w='lg' margin='0 auto' boxShadow='2xl' p={ 10 } rounded='2xl'>
 			<form onSubmit={ handle_submit }>
@@ -24,7 +26,7 @@ const UserAuthForm = ( { children, title, button_text, handle_submit, error } : 
 				<Flex width='80%' flexDir='column' justifyContent='space-between' alignItems='center' margin='0 auto'>
 					<Text fontSize='3xl' fontWeight='medium' mb={ 5 }>{ title }</Text>
 					{ children }
-					<Button type='submit'>
+					<Button type='submit' isLoading={ loading }>
 						{ button_text }
 					</Button>
 				</Flex>
