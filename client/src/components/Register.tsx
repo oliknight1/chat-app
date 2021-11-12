@@ -15,9 +15,11 @@ const Register = () => {
 	const [ error, set_error ] = useState<string | null>( null );
 	const [ loading, set_loading ] = useState<boolean>( false );
 	const { signup } = useAuth();
+	console.log( typeof signup )
 
 	const handle_submit = async ( e : Event ) => {
 		e.preventDefault();
+		set_error( null );
 		if( username === '' || email === '' || password === '' || password_confirm === '' ) {
 			set_error( 'Please fill out all required fields' );
 			return;
@@ -57,7 +59,6 @@ const Register = () => {
 						set_state={ set_username }
 						icon={ <InfoIcon textAlign='center' color='gray.300'/> }
 						placeholder='Please enter a username'
-						
 					/>
 					<TextInput
 						id='email'

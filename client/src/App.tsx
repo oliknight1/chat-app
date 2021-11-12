@@ -4,6 +4,7 @@ import {
 	Switch,
 	Route
 } from 'react-router-dom';
+import Login from './components/Login';
 import Register from './components/Register';
 import AuthProvider from './contexts/auth_context';
 
@@ -25,7 +26,9 @@ const App = () => {
 				</nav>
 				<Switch>
 					<Route exact path='/'></Route>
-					<Route path='/login'></Route>
+					<Route path='/login'>
+						<Login />
+					</Route>
 					<Route path='/register'>
 						<Register/>
 					</Route>

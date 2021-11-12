@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {AppContext} from '../utils/typings';
 import { auth } from '../config/firebase';
-import { createUserWithEmailAndPassword, UserCredential, onAuthStateChanged, User } from 'firebase/auth';
+import { createUserWithEmailAndPassword, UserCredential, onAuthStateChanged, User, signInWithEmailAndPassword } from 'firebase/auth';
 const AuthContext = React.createContext( {} as AppContext );
 
 export const useAuth = () => useContext( AuthContext );
@@ -9,9 +9,12 @@ export const useAuth = () => useContext( AuthContext );
 const AuthProvider = ( { children } : any ) => {
 	const [ current_user, set_current_user ] = useState<User | null>()
 
-	// Returns a promise to be consumed by signup component
+	// Returns a promise to be consumed by register/login component
 	const signup = ( email : string, password : string ) : Promise<UserCredential> => {
 		return createUserWithEmailAndPassword( auth, email, password )
+	}
+	const login = ( email : string, password: string ) : Promise<UserCredential> => {
+		return signInWithEmailAndPassword( auth, email, password );
 	}
 
 	// Make sure to unsubscribe from listener once component is mounted
@@ -22,7 +25,8 @@ const AuthProvider = ( { children } : any ) => {
 
 	const value : AppContext = {
 		current_user,
-		signup
+		signup,
+		login
 	}
 
 	return (
