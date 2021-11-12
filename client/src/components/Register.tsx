@@ -6,6 +6,7 @@ import UserAuthForm from "./UserAuthForm"
 import { useAuth } from '../contexts/auth_context';
 import { useState } from "react";
 import firebase from 'firebase/app';
+import {handle_auth_code} from "../services/user_auth_validation";
 
 const Register = () => {
 	const [ username, set_username] = useState<string>( '' );
@@ -34,16 +35,7 @@ const Register = () => {
 			await signup( email, password );
 		} catch( e ) {
 			const code = ( e as firebase.FirebaseError ).code;
-			switch( code ) {
-				case ( 'auth/weak-password' ) :
-					set_error( 'Password is too weak' );
-					break;
-				case ( 'auth/email-already-in-use' ) :
-					set_error( 'Email is already in use' );
-					break;
-				default :
-					set_error( 'There was an error creating the account' );
-			}
+			set_error( handle_auth_code( code ) )
 		}
 		set_loading( false );
 	}

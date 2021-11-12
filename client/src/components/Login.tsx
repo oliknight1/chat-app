@@ -6,6 +6,7 @@ import BackgroundImage from "./BackgroundImage";
 import TextInput from "./TextInput";
 import UserAuthForm from "./UserAuthForm";
 import firebase from 'firebase/app';
+import {handle_auth_code} from "../services/user_auth_validation";
 
 const Login = () => {
 	const [ email, set_email ] = useState<string>( '' );
@@ -27,17 +28,7 @@ const Login = () => {
 			await login( email, password );
 		} catch ( e ) {
 			const code = ( e as firebase.FirebaseError ).code
-			console.log( code );
-			switch( code ) {
-				case ( 'auth/user-not-found' ) :
-					set_error( 'Email / password was not found' );
-					break;
-				case ( 'auth/wrong-password' ) :
-					set_error( 'Email / password was not found' );
-					break;
-				default :
-					set_error( 'There was an error logging in, please try again' );
-			}
+			set_error( handle_auth_code( code ) )
 		}
 		set_loading( false );
 
