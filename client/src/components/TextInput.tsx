@@ -18,7 +18,7 @@ const TextInput = ( { id, label, type, icon, state, set_state, placeholder } : T
 	return (
 		<FormControl id={ id } isRequired mb={ 5 }>
 			<FormLabel>
-				{ label }	
+				{ label }
 			</FormLabel>
 			<InputGroup>
 				<InputLeftElement

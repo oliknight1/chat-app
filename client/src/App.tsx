@@ -12,7 +12,7 @@ const App = () => {
 	return (
 		<AuthProvider>
 			<Router>
-				<nav style={{ position: 'fixed' }}>
+				<nav style={{ position: 'fixed', background : 'red' }}>
 					<ul>
 						<li>
 							<Link to ='/'>Home</Link>
