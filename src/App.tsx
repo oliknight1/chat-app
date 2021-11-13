@@ -4,7 +4,9 @@ import {
 	Switch,
 	Route
 } from 'react-router-dom';
+import ChatPage from './components/ChatPage';
 import Login from './components/Login';
+import PrivateRoute from './components/PrivateRoute';
 import Register from './components/Register';
 import AuthProvider from './contexts/auth_context';
 
@@ -12,7 +14,7 @@ const App = () => {
 	return (
 		<AuthProvider>
 			<Router>
-				<nav style={{ position: 'fixed', background : 'red' }}>
+				<nav style={{ position: 'fixed' }}>
 					<ul>
 						<li>
 							<Link to ='/'>Home</Link>
@@ -25,13 +27,9 @@ const App = () => {
 					</ul>
 				</nav>
 				<Switch>
-					<Route exact path='/'></Route>
-					<Route path='/login'>
-						<Login />
-					</Route>
-					<Route path='/register'>
-						<Register/>
-					</Route>
+					<PrivateRoute exact path='/' component={ ChatPage }></PrivateRoute>
+					<Route path='/login' component={ Login } />
+					<Route path='/register' component={ Register } />
 				</Switch>
 			</Router>
 		</AuthProvider>
