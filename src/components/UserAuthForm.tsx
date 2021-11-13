@@ -12,12 +12,12 @@ export interface UserAuthFormProps {
 
 const UserAuthForm = ( { children, title, button_text, handle_submit, error, loading } : UserAuthFormProps ) => {
 	return (
-		<Box bg='white' w={ ['xxsm', 'lg'] } margin='0 auto' boxShadow='2xl' p={ 10 } rounded='2xl'>
+		<Box bg='white' w={ ['sm', 'lg'] } margin='0 auto' boxShadow='2xl' p={ 10 } rounded='2xl' position='relative'>
 			<form onSubmit={ handle_submit }>
 				{
 					error !== null &&
 					<Stack spacing={ 3 } mb={ 5 }>
-						<Alert status='error' variant='subtle'>
+						<Alert status='error' variant='subtle' position={ ['absolute', 'relative'] } rounded='xl' left={ 0 } top={ 0 }>
 							<AlertIcon />
 							{ error }
 						</Alert>
