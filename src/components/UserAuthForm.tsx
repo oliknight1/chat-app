@@ -16,7 +16,7 @@ const UserAuthForm = ( { children, title, button_text, handle_submit, error, loa
 			<form onSubmit={ handle_submit }>
 				{
 					error !== null &&
-					<Stack spacing={ 3 } mb={ 5 }>
+					<Stack spacing={ 3 } mb={ 5 } width='90%' margin='16px auto'>
 						<Alert status='error' variant='subtle' position={ ['absolute', 'relative'] } rounded='xl' left={ 0 } top={ 0 }>
 							<AlertIcon />
 							{ error }
