@@ -24,9 +24,9 @@ const UserAuthForm = ( { children, title, button_text, handle_submit, error, loa
 					</Stack>
 				}
 				<Flex width={ ['100%', '80%'] }  flexDir='column' justifyContent='space-between' alignItems='center' margin='0 auto'>
-					<Text fontSize='2xl' fontWeight='medium' mb={ 5 }>{ title }</Text>
+					<Text fontSize={ [ '2xl', '4xl' ] } mb={ 5 }>{ title }</Text>
 					{ children }
-					<Button type='submit' isLoading={ loading } mt={ 3 }>
+					<Button type='submit' isLoading={ loading } mt={ 3 } background='teal.dark' color='white' width='100%' fontSize={ 18 }>
 						{ button_text }
 					</Button>
 				</Flex>
