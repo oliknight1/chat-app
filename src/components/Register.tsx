@@ -7,6 +7,8 @@ import { useAuth } from '../contexts/auth_context';
 import { useState } from "react";
 import firebase from 'firebase/app';
 import {handle_auth_code} from "../services/user_auth_validation";
+import {updateProfile} from "firebase/auth";
+import {useHistory} from "react-router-dom";
 
 const Register = () => {
 	const [ username, set_username] = useState<string>( '' );
@@ -16,7 +18,7 @@ const Register = () => {
 	const [ error, set_error ] = useState<string | null>( null );
 	const [ loading, set_loading ] = useState<boolean>( false );
 	const { signup } = useAuth();
-	console.log( typeof signup )
+	const history = useHistory();
 
 	const handle_submit = async ( e : Event ) => {
 		e.preventDefault();
@@ -32,7 +34,12 @@ const Register = () => {
 		}
 		try {
 			set_loading( true )
-			await signup( email, password );
+			await signup( email, password ).then( ( user_credentail : any ) => {
+				updateProfile( user_credentail.user, {
+					displayName: username.trim()
+				} )
+			} );
+			history.push( '/' )
 		} catch( e ) {
 			const code = ( e as firebase.FirebaseError ).code;
 			set_error( handle_auth_code( code ) )

@@ -1,6 +1,5 @@
 
 export const handle_auth_code = ( code : string ) => {
-	console.log( code )
 	switch( code ) {
 		case ( 'auth/weak-password' ) :
 			return 'Password is too weak';
