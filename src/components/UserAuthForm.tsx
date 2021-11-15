@@ -1,4 +1,5 @@
-import { Box, Text, Flex, Button, Alert, Stack, AlertIcon } from "@chakra-ui/react";
+import { Box, Text, Flex, Button, Alert, Stack, AlertIcon, Link } from "@chakra-ui/react";
+import { useLocation} from "react-router-dom";
 
 export interface UserAuthFormProps {
 	children: JSX.Element[],
@@ -11,6 +12,12 @@ export interface UserAuthFormProps {
 }
 
 const UserAuthForm = ( { children, title, button_text, handle_submit, error, loading } : UserAuthFormProps ) => {
+	let link_element; 
+	if( useLocation().pathname === '/login' ) {
+		link_element = <Text>Don't have an account? Create one <Link href='/register' color='teal.dark'>here!</Link></Text>
+	} else {
+		link_element = <Text>Already have an account? Sign in <Link href='/login' color='teal.dark'>here!</Link></Text>
+	}
 	return (
 		<Box bg='white' w={ ['sm', 'lg'] } margin='0 auto' boxShadow='2xl' p={ 10 } rounded='2xl' position='relative'>
 			<form onSubmit={ handle_submit }>
@@ -29,6 +36,9 @@ const UserAuthForm = ( { children, title, button_text, handle_submit, error, loa
 					<Button type='submit' isLoading={ loading } mt={ 3 } background='teal.dark' color='white' width='100%' fontSize={ 18 }>
 						{ button_text }
 					</Button>
+					<Box mt={ 5 }>
+						{ link_element }
+					</Box>
 				</Flex>
 			</form>
 		</Box>
