@@ -1,3 +1,4 @@
+import {Button, Flex, Heading} from '@chakra-ui/react';
 import {
 	BrowserRouter as Router,
 	Link,
@@ -14,17 +15,11 @@ const App = () => {
 	return (
 		<AuthProvider>
 			<Router>
-				<nav style={{ position: 'fixed' }}>
-					<ul>
-						<li>
-							<Link to ='/'>Home</Link>
-							<br />
-
-							<Link to ='/login'>Login</Link>
-							<br />
-							<Link to ='/register'>Register</Link>
-						</li>
-					</ul>
+				<nav style={{ position: 'absolute', width: '100%' }}>
+					<Flex justify='space-between' px={ 10 } pt={ 5 }>
+						<Link to ='/'><Heading color='teal.dark'> PicChat</Heading></Link>
+						<Link to ='/register'><Button background='teal.dark' color='white'>Register</Button></Link>
+					</Flex>
 				</nav>
 				<Switch>
 					<PrivateRoute exact path='/' component={ ChatPage }></PrivateRoute>
