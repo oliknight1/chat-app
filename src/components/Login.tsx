@@ -7,6 +7,7 @@ import TextInput from "./TextInput";
 import UserAuthForm from "./UserAuthForm";
 import firebase from 'firebase/app';
 import {handle_auth_code} from "../services/user_auth_validation";
+import {useHistory} from "react-router-dom";
 
 const Login = () => {
 	const [ email, set_email ] = useState<string>( '' );
@@ -14,6 +15,9 @@ const Login = () => {
 	const [ error, set_error ] = useState<string | null>( null );
 	const [ loading, set_loading ] = useState<boolean>( false );
 	const { login } = useAuth();
+	const history = useHistory();
+
+	// TODO: add hsitory link to home page onsubmit
 
 	const handle_submit =  async ( e : Event ) => {
 		e.preventDefault();
@@ -26,6 +30,7 @@ const Login = () => {
 		try {
 			set_loading( true );
 			await login( email, password );
+			history.push( '/' );
 		} catch ( e ) {
 			const code = ( e as firebase.FirebaseError ).code
 			set_error( handle_auth_code( code ) )
@@ -36,7 +41,7 @@ const Login = () => {
 
 	return (
 		<>
-			<Flex alignItems='center' height='100vh' background='transparent'>
+			<Flex alignItems='center' height='90vh' background='transparent'>
 				<UserAuthForm title='Login to your account' button_text='Login' handle_submit={ handle_submit } error={ error } loading={ loading }>
 					<TextInput
 						id='email'

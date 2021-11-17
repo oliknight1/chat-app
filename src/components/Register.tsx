@@ -48,7 +48,7 @@ const Register = () => {
 	}
 	return (
 		<>
-			<Flex alignItems='center' height='100vh' background='transparent'>
+			<Flex alignItems='center' height='90vh' background='transparent'>
 				<UserAuthForm title='Create an account' button_text='Register' handle_submit={ handle_submit } error={ error } loading={ loading }>
 					<TextInput
 						id='username'
