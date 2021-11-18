@@ -7,7 +7,8 @@ const AuthContext = React.createContext( {} as AppContext );
 export const useAuth = () => useContext( AuthContext );
 
 const AuthProvider = ( { children } : any ) => {
-	const [ current_user, set_current_user ] = useState<User | null>()
+	const [ current_user, set_current_user ] = useState<User | null>();
+	const [loading, set_loading] = useState<boolean>( true )
 
 	// Returns a promise to be consumed by register/login component
 	const signup = ( email : string, password : string ) : Promise<UserCredential> => {
@@ -19,7 +20,10 @@ const AuthProvider = ( { children } : any ) => {
 
 	// Make sure to unsubscribe from listener once component is mounted
 	useEffect( () => {
-		const unsubscribe = onAuthStateChanged( auth, ( user ) => set_current_user( user ) )
+		const unsubscribe = onAuthStateChanged( auth, ( user ) => {
+			set_current_user( user );
+			set_loading( false );
+		});
 		return unsubscribe;
 	}, [] );
 
@@ -31,7 +35,7 @@ const AuthProvider = ( { children } : any ) => {
 
 	return (
 		<AuthContext.Provider value={ value }>
-			{ children }
+			{ !loading && children }
 		</AuthContext.Provider>
 	);
 
