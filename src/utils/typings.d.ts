@@ -6,7 +6,7 @@ export interface AppContext {
 
 export interface Message {
 	text : string,
-	timestamp: number,
+	timestamp: FieldValue,
 	uid : string
 }
 
