@@ -1,7 +1,10 @@
+import ChatBox from "./ChatBox";
 
 const ChatPage = () => {
-	return(
-		<div> chat page</div>
+	return (
+		<div>
+			<ChatBox />
+		</div>
 	);
 }
 export default ChatPage;
