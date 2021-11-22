@@ -1,27 +1,30 @@
 import {Box, Input} from "@chakra-ui/react";
-import {addDoc, collection, serverTimestamp} from "firebase/firestore";
-import {ChangeEvent, useState} from "react";
+import {addDoc, collection,  limit, orderBy, query, serverTimestamp} from "firebase/firestore";
+import {ChangeEvent,  useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import {Message} from "../utils/typings";
 import ChatMessage from "./ChatMessage";
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const ChatBox = () => {
-	const [ messages, set_messages ] = useState<Message[]>([]);
 	const [ new_message, set_new_message ] = useState<string>( '' );
 	const { current_user } = useAuth();
 	const { uid } = current_user;
 
+	const messages_ref = collection( db, 'messages' )
+	const q = query( messages_ref, orderBy( 'timestamp' ), limit( 25 ) )
+	const [messages] = useCollectionData(q, { idField: 'id' });
+
 	const post_message = async ( data : Message ) => {
-    try {
-		const docRef = await addDoc(collection(db, 'messages'), data );
-        console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
+		try {
+			await addDoc(collection(db, 'messages'), data );
+		} catch (e) {
+			// TODO : Proper error handling
+			console.error("Error adding document: ");
+		}
 
 	}
-
 	const message_form_handler = ( e : ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if( new_message.length > 0 ) {
@@ -30,9 +33,8 @@ const ChatBox = () => {
 				timestamp: serverTimestamp() ,
 				uid,
 			}
-			set_messages( messages.concat( [message] ) );
-			set_new_message( '' );
 			post_message( message );
+			set_new_message( '' );
 		}
 
 	}
@@ -40,10 +42,12 @@ const ChatBox = () => {
 		e.preventDefault();
 		set_new_message( e.target.value );
 	}
+
 	return (
 		<Box bg='red' w='lg'>
 			<Box>
-				{
+				{ messages &&
+					// TODO : Add loading spinner
 					messages.map( message => {
 						return (
 							<ChatMessage message={ message.text } key={ message.timestamp }/>
