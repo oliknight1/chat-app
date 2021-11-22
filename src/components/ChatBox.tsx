@@ -11,24 +11,25 @@ const ChatBox = () => {
 	// Input state
 	const [ new_message, set_new_message ] = useState<string>( '' );
 
+	const [ message_post_error, set_message_post_error ] = useState<string | null>( null )
+
 	const { current_user } = useAuth();
 	const { uid } = current_user;
 
 	// Handle getting data
 	const messages_ref = collection( db, 'messages' )
 	const q = query( messages_ref, orderBy( 'timestamp' ), limit( 25 ) )
-	const [ messages,loading ] = useCollectionData(q, { idField: 'id' });
+	const [ messages,loading ] = useCollectionData (q, { idField: 'id' } );
 
 	const post_message = async ( data : Message ) => {
 		try {
 			await addDoc(collection(db, 'messages'), data );
-		} catch (e) {
-			// TODO : Proper error handling
-			console.error("Error adding document: ");
+		} catch ( error ) {
+			set_message_post_error( error as string );
 		}
 	}
 
-	const message_form_handler = ( e : ChangeEvent<HTMLFormElement>) => {
+	const message_form_handler = ( e : ChangeEvent<HTMLFormElement> ) => {
 		e.preventDefault();
 		if( new_message.length > 0 ) {
 			const message: Message = {
@@ -42,7 +43,7 @@ const ChatBox = () => {
 
 	}
 
-	const handle_new_message = ( e : ChangeEvent<HTMLInputElement>) => {
+	const handle_new_message = ( e : ChangeEvent<HTMLInputElement> ) => {
 		e.preventDefault();
 		set_new_message( e.target.value );
 	}
