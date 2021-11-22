@@ -1,6 +1,6 @@
 import {Box, Input} from "@chakra-ui/react";
 import {addDoc, collection,  limit, orderBy, query, serverTimestamp} from "firebase/firestore";
-import {ChangeEvent,  useState} from "react";
+import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import {Message} from "../utils/typings";
@@ -8,13 +8,16 @@ import ChatMessage from "./ChatMessage";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const ChatBox = () => {
+	// Input state
 	const [ new_message, set_new_message ] = useState<string>( '' );
+
 	const { current_user } = useAuth();
 	const { uid } = current_user;
 
+	// Handle getting data
 	const messages_ref = collection( db, 'messages' )
 	const q = query( messages_ref, orderBy( 'timestamp' ), limit( 25 ) )
-	const [messages] = useCollectionData(q, { idField: 'id' });
+	const [ messages,loading ] = useCollectionData(q, { idField: 'id' });
 
 	const post_message = async ( data : Message ) => {
 		try {
@@ -23,8 +26,8 @@ const ChatBox = () => {
 			// TODO : Proper error handling
 			console.error("Error adding document: ");
 		}
-
 	}
+
 	const message_form_handler = ( e : ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if( new_message.length > 0 ) {
@@ -38,16 +41,20 @@ const ChatBox = () => {
 		}
 
 	}
+
 	const handle_new_message = ( e : ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
 		set_new_message( e.target.value );
 	}
 
 	return (
-		<Box bg='red' w='lg'>
+		<Box w='lg'>
 			<Box>
+				{
+					loading === true &&
+					<p>LOADING</p>
+				}
 				{ messages &&
-					// TODO : Add loading spinner
 					messages.map( message => {
 						return (
 							<ChatMessage message={ message.text } key={ message.timestamp }/>
@@ -56,7 +63,7 @@ const ChatBox = () => {
 				}
 			</Box>
 			<form onSubmit={ message_form_handler }>
-				<Input type='text' background='green' value={ new_message } onChange={ handle_new_message } />
+				<Input type='text' value={ new_message } onChange={ handle_new_message } />
 			</form>
 		</Box>
 	);
