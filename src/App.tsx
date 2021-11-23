@@ -18,7 +18,7 @@ const App = () => {
 				<nav>
 					<Flex justify='space-between' px={ 10 } pt={ 5 }>
 						<Link to ='/'><Heading color='teal.dark'> PicChat</Heading></Link>
-						<Link to ='/register'><Button background='teal.dark' color='white'>Register</Button></Link>
+						<Link to ='/register'><Button _hover={{ backgroundColor: 'teal' }} background='teal.dark' color='white'>Register</Button></Link>
 					</Flex>
 				</nav>
 				<Switch>

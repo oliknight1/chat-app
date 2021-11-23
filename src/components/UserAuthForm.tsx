@@ -12,7 +12,7 @@ export interface UserAuthFormProps {
 }
 
 const UserAuthForm = ( { children, title, button_text, handle_submit, error, loading } : UserAuthFormProps ) => {
-	let link_element; 
+	let link_element;
 	if( useLocation().pathname === '/login' ) {
 		link_element = <Text>Don't have an account? Create one <Link href='/register' color='teal.dark'>here!</Link></Text>
 	} else {
@@ -33,7 +33,7 @@ const UserAuthForm = ( { children, title, button_text, handle_submit, error, loa
 				<Flex width={ ['100%', '80%'] }  flexDir='column' justifyContent='space-between' alignItems='center' margin='0 auto'>
 					<Text fontSize={ [ '2xl', '4xl' ] } mb={ 5 }>{ title }</Text>
 					{ children }
-					<Button type='submit' isLoading={ loading } mt={ 3 } background='teal.dark' color='white' width='100%' fontSize={ 18 }>
+					<Button type='submit'_hover={{ backgroundColour: 'teal' }} isLoading={ loading } mt={ 3 } background='teal.dark' color='white' width='100%' fontSize={ 18 }>
 						{ button_text }
 					</Button>
 					<Box mt={ 5 }>
