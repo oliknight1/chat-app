@@ -64,7 +64,7 @@ const ChatBox = () => {
 				}
 			</Box>
 			<form onSubmit={ message_form_handler }>
-				<Input type='text' value={ new_message } onChange={ handle_new_message } />
+				<Input type='text' value={ new_message } onChange={ handle_new_message } placeholder='Enter a message'/>
 			</form>
 		</Box>
 	);
