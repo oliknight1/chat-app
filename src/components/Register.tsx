@@ -1,7 +1,7 @@
 import { EmailIcon, InfoIcon, LockIcon } from "@chakra-ui/icons";
 import { Flex } from "@chakra-ui/react";
 import BackgroundImage from "./BackgroundImage"
-import TextInput from "./TextInput";
+import UserAuthTextInput from "./UserAuthTextInput";
 import UserAuthForm from "./UserAuthForm"
 import { useAuth } from '../contexts/auth_context';
 import { useState } from "react";
@@ -50,7 +50,7 @@ const Register = () => {
 		<>
 			<Flex alignItems='center' height='90vh' background='transparent'>
 				<UserAuthForm title='Create an account' button_text='Register' handle_submit={ handle_submit } error={ error } loading={ loading }>
-					<TextInput
+					<UserAuthTextInput
 						id='username'
 						label='Username'
 						type='text'
@@ -59,7 +59,7 @@ const Register = () => {
 						icon={ <InfoIcon textAlign='center' color='gray.300'/> }
 						placeholder='Please enter a username'
 					/>
-					<TextInput
+					<UserAuthTextInput
 						id='email'
 						label='Email'
 						type='email'
@@ -68,7 +68,7 @@ const Register = () => {
 						icon={ <EmailIcon textAlign='center' color='gray.300'/> }
 						placeholder='Please enter an email'
 					/>
-					<TextInput
+					<UserAuthTextInput
 						id='password'
 						label='Password'
 						type='password'
@@ -77,7 +77,7 @@ const Register = () => {
 						icon={ <LockIcon textAlign='center' color='gray.300'/> }
 						placeholder='Please enter a password'
 					/>
-					<TextInput
+					<UserAuthTextInput
 						id='password_confirm'
 						label='Confirm Password'
 						type='password'

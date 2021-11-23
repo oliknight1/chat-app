@@ -1,7 +1,7 @@
 import { FormControl, FormLabel, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 import { ReactElement } from 'react'
 
-type TextInputProps = {
+type UserAuthTextInputProps = {
 	id : string,
 	label : string,
 	icon : ReactElement,
@@ -11,7 +11,7 @@ type TextInputProps = {
 	placeholder : string
 }
 
-const TextInput = ( { id, label, type, icon, state, set_state, placeholder } : TextInputProps ) => {
+const UserAuthTextInput = ( { id, label, type, icon, state, set_state, placeholder } : UserAuthTextInputProps ) => {
 	const handle_change = ( e : React.FormEvent<HTMLInputElement> ) => {
 		set_state( e.currentTarget.value.trim() );
 	}
@@ -31,4 +31,4 @@ const TextInput = ( { id, label, type, icon, state, set_state, placeholder } : T
 		</FormControl>
 	)
 }
-export default TextInput
+export default UserAuthTextInput

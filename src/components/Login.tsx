@@ -3,7 +3,7 @@ import {Flex} from "@chakra-ui/react";
 import { useState } from "react";
 import {useAuth} from "../contexts/auth_context";
 import BackgroundImage from "./BackgroundImage";
-import TextInput from "./TextInput";
+import UserAuthTextInput from "./UserAuthTextInput";
 import UserAuthForm from "./UserAuthForm";
 import firebase from 'firebase/app';
 import {handle_auth_code} from "../services/user_auth_validation";
@@ -43,7 +43,7 @@ const Login = () => {
 		<>
 			<Flex alignItems='center' height='90vh' background='transparent'>
 				<UserAuthForm title='Login to your account' button_text='Login' handle_submit={ handle_submit } error={ error } loading={ loading }>
-					<TextInput
+					<UserAuthTextInput
 						id='email'
 						label='Email'
 						type='email'
@@ -52,7 +52,7 @@ const Login = () => {
 						icon={ <EmailIcon textAlign='center' color='gray.300'/> }
 						placeholder='Please enter an email'
 					/>
-					<TextInput
+					<UserAuthTextInput
 						id='password'
 						label='Password'
 						type='password'
