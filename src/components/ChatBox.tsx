@@ -1,4 +1,4 @@
-import {Box, Input} from "@chakra-ui/react";
+import {Box, Button, Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
 import {addDoc, collection,  limit, orderBy, query, serverTimestamp} from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
@@ -6,6 +6,8 @@ import {useAuth} from "../contexts/auth_context";
 import {Message} from "../utils/typings";
 import ChatMessage from "./ChatMessage";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import SendIcon from "./SendIcon";
+
 
 const ChatBox = () => {
 	// Input state
@@ -49,7 +51,7 @@ const ChatBox = () => {
 	}
 
 	return (
-		<Box w='lg'>
+		<Container maxW='80%' h='100%'>
 			<Box>
 				{
 					loading === true &&
@@ -64,9 +66,14 @@ const ChatBox = () => {
 				}
 			</Box>
 			<form onSubmit={ message_form_handler }>
-				<Input type='text' value={ new_message } onChange={ handle_new_message } placeholder='Enter a message'/>
+				<Flex>
+					<InputGroup>
+						<Input type='text' variant='filled' py={6} value={ new_message } onChange={ handle_new_message } placeholder='Enter a message' mr={ 3 }/>
+						<InputRightElement right='5%' top='10%' children={ <SendIcon width='20px' height='20px' /> } />
+					</InputGroup>
+				</Flex>
 			</form>
-		</Box>
+		</Container>
 	);
 }
 export default ChatBox;
