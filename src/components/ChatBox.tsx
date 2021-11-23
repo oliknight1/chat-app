@@ -1,4 +1,4 @@
-import {Box, Button, Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
+import {Box, Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
 import {addDoc, collection,  limit, orderBy, query, serverTimestamp} from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
@@ -51,7 +51,7 @@ const ChatBox = () => {
 	}
 
 	return (
-		<Container maxW='80%' h='100%'>
+		<Container background='gray.100' maxW='80%' h='100%' pb={ 4 } pt={ 8 }>
 			<Box>
 				{
 					loading === true &&
@@ -67,9 +67,9 @@ const ChatBox = () => {
 			</Box>
 			<form onSubmit={ message_form_handler }>
 				<Flex>
-					<InputGroup>
-						<Input type='text' variant='filled' py={6} value={ new_message } onChange={ handle_new_message } placeholder='Enter a message' mr={ 3 }/>
-						<InputRightElement right='5%' top='10%' children={ <SendIcon width='20px' height='20px' /> } />
+					<InputGroup mt={ 10 }>
+						<Input type='text' _hover={{ backgroundColor: 'white' }} _focus={{ backgroundColor : 'white' }} variant='filled' backgroundColor='white' py={ 6 } value={ new_message } onChange={ handle_new_message } placeholder='Enter a message' mr={ 3 }/>
+						<InputRightElement right='40px' top='10%' children={ <SendIcon width='20px' height='20px' /> } />
 					</InputGroup>
 				</Flex>
 			</form>
