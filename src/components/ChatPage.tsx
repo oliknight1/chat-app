@@ -1,10 +1,15 @@
 import ChatBox from "./ChatBox";
+import Sidebar from './Sidebar';
+import ChatList from './ChatList';
+import {Flex} from "@chakra-ui/react";
 
 const ChatPage = () => {
 	return (
-		<div>
+		<Flex>
+			<Sidebar />
+			<ChatList />
 			<ChatBox />
-		</div>
+		</Flex>
 	);
 }
 export default ChatPage;
