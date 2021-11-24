@@ -13,7 +13,7 @@ type UserAuthTextInputProps = {
 
 const UserAuthTextInput = ( { id, label, type, icon, state, set_state, placeholder } : UserAuthTextInputProps ) => {
 	const handle_change = ( e : React.FormEvent<HTMLInputElement> ) => {
-		set_state( e.currentTarget.value.trim() );
+		set_state( e.currentTarget.value );
 	}
 	return (
 		<FormControl id={ id } isRequired mb={ 5 }>

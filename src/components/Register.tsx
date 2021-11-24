@@ -34,9 +34,10 @@ const Register = () => {
 		}
 		try {
 			set_loading( true )
-			await signup( email, password ).then( ( user_credentail : any ) => {
+			await signup( email.trim(), password.trim() ).then( ( user_credentail : any ) => {
 				updateProfile( user_credentail.user, {
-					displayName: username.trim()
+					displayName: username.trim(),
+					photoURL: 'https://firebasestorage.googleapis.com/v0/b/picchat-6f594.appspot.com/o/default_user.png?alt=media&token=bb8c6886-db7e-4d67-8a9d-8e227859bd80'
 				} )
 			} );
 			history.push( '/' )
