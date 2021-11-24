@@ -1,4 +1,4 @@
-import {Box, Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
+import {Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
 import {addDoc, collection,  limit, orderBy, query, serverTimestamp} from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
@@ -59,7 +59,6 @@ const ChatBox = () => {
 				}
 				{ messages &&
 						messages.map( message => {
-							console.log( message.uid, uid )
 						return (
 							<ChatMessage message={ message.text } recieved_message = { message.uid !== uid } key={ message.timestamp }/>
 						);
