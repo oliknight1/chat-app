@@ -17,6 +17,8 @@ const AuthProvider = ( { children } : any ) => {
 	const login = ( email : string, password: string ) : Promise<UserCredential> => {
 		return signInWithEmailAndPassword( auth, email, password );
 	}
+	
+	const logout = () => auth.signOut()
 
 	// Make sure to unsubscribe from listener once component is mounted
 	useEffect( () => {
@@ -30,7 +32,8 @@ const AuthProvider = ( { children } : any ) => {
 	const value : AppContext = {
 		current_user,
 		signup,
-		login
+		login,
+		logout
 	}
 
 	return (
