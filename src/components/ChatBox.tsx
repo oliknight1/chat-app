@@ -7,6 +7,7 @@ import {Message} from "../utils/typings";
 import ChatMessage from "./ChatMessage";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { SendIcon } from "../utils/icons";
+import {write_to_db} from "../services/database_helpers";
 
 
 const ChatBox = () => {
@@ -23,14 +24,6 @@ const ChatBox = () => {
 	const q = query( messages_ref, orderBy( 'timestamp' ), limit( 25 ) )
 	const [ messages,loading ] = useCollectionData (q, { idField: 'id' } );
 
-	const post_message = async ( data : Message ) => {
-		try {
-			await addDoc(collection(db, 'messages'), data );
-		} catch ( error ) {
-			set_message_post_error( error as string );
-		}
-	}
-
 	const message_form_handler = ( e : ChangeEvent<HTMLFormElement> ) => {
 		e.preventDefault();
 		if( new_message.length > 0 ) {
@@ -39,7 +32,7 @@ const ChatBox = () => {
 				timestamp: serverTimestamp() ,
 				uid,
 			}
-			post_message( message );
+			write_to_db( 'messages', message, set_message_post_error);
 			set_new_message( '' );
 		}
 
