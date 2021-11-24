@@ -6,7 +6,7 @@ import {useAuth} from "../contexts/auth_context";
 import {Message} from "../utils/typings";
 import ChatMessage from "./ChatMessage";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import SendIcon from "./SendIcon";
+import { SendIcon } from "../utils/icons";
 
 
 const ChatBox = () => {
