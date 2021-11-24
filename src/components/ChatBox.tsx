@@ -52,19 +52,20 @@ const ChatBox = () => {
 
 	return (
 		<Container background='gray.100' maxW='80%' h='100%' pb={ 4 } pt={ 8 }>
-			<Box>
+			<Flex flexDir='column'>
 				{
 					loading === true &&
 					<p>LOADING</p>
 				}
 				{ messages &&
-					messages.map( message => {
+						messages.map( message => {
+							console.log( message.uid, uid )
 						return (
-							<ChatMessage message={ message.text } key={ message.timestamp }/>
+							<ChatMessage message={ message.text } recieved_message = { message.uid !== uid } key={ message.timestamp }/>
 						);
 					} )
 				}
-			</Box>
+			</Flex>
 			<form onSubmit={ message_form_handler }>
 				<Flex>
 					<InputGroup mt={ 10 }>
