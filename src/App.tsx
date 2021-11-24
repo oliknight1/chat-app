@@ -12,15 +12,19 @@ import Register from './components/Register';
 import AuthProvider from './contexts/auth_context';
 
 const App = () => {
+	const pathname = window.location.pathname;
 	return (
 		<AuthProvider>
 			<Router>
-				<nav>
-					<Flex justify='space-between' px={ 10 } pt={ 5 }>
-						<Link to ='/'><Heading color='teal.dark'> PicChat</Heading></Link>
-						<Link to ='/register'><Button _hover={{ backgroundColor: 'teal' }} background='teal.dark' color='white'>Register</Button></Link>
-					</Flex>
-				</nav>
+				{
+					pathname !== '/' &&
+						<nav>
+							<Flex justify='space-between' px={ 10 } pt={ 5 }>
+								<Link to ='/'><Heading color='teal.dark'>PicChat</Heading></Link>
+								<Link to ='/register'><Button _hover={{ backgroundColor: 'teal' }} background='teal.dark' color='white'>Register</Button></Link>
+							</Flex>
+						</nav>
+				}
 				<Switch>
 					<PrivateRoute exact path='/' component={ ChatPage }></PrivateRoute>
 					<Route path='/login' component={ Login } />
