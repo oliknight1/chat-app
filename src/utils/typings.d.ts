@@ -1,7 +1,8 @@
 export interface AppContext {
 	current_user : User,
 	signup: any,
-	login: any
+	login: any,
+	logout : any
 }
 
 export interface Message {
