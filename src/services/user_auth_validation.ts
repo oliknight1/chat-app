@@ -13,7 +13,10 @@ export const handle_auth_code = ( code : string ) => {
 		case ( 'auth/wrong-password' ) :
 			return 'Email / password was not found';
 
+		case ( 'auth/invalid-email' ) :
+			return 'Email is invalid';
 		default :
+			console.error( code );
 			return 'There was an error, please try again'
 	}
 }
