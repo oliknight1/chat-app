@@ -3,13 +3,17 @@ import Sidebar from './Sidebar';
 import ChatList from './ChatList';
 import {Button, Flex, FormControl, FormErrorMessage, HStack, Input, useDisclosure} from "@chakra-ui/react";
 import {fetchSignInMethodsForEmail} from "firebase/auth";
-import {auth} from "../config/firebase";
+import {auth, db} from "../config/firebase";
 import DialogBox from "./DialogBox";
 import {FormEvent, useState} from "react";
+import {write_to_db} from "../services/database_helpers";
+import { useAuth } from '../contexts/auth_context';
+import {collection, getDocs, limit, query, where} from "firebase/firestore";
 
 const ChatPage = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [ invite_error, set_invite_error ] = useState<string | null>( null );
+
 
 	// Make sure to remove the error once the dialog is closed
 	const dialog_close_handler = () => {
@@ -30,17 +34,41 @@ const ChatPage = () => {
 }
 
 const ChatInviteForm = ( { error, set_error } : { error : string | null, set_error: React.Dispatch<React.SetStateAction<any>> } ) => {
-	const [ invite_email, set_invite_email ] = useState<string>();
+	const [ invite_email, set_invite_email ] = useState<string>( '' );
 	const [ invite_loading, set_invite_loading ] = useState<boolean>( false );
+	const { current_user } = useAuth();
+
 	const handle_chat_invite = async ( e : FormEvent<HTMLFormElement> ) => {
 		e.preventDefault();
 		set_error( null );
-		set_invite_loading( true )
-		if( invite_email ) {
+		set_invite_loading( true );
+		if( invite_email === current_user.email ) {
+			set_error( 'Cannot invite yourself, sorry!' );
+			set_invite_loading( false );
+			return;
+		}
+		if( invite_email.length > 0 ) {
 			const matched_emails = await fetchSignInMethodsForEmail( auth, invite_email )
-			console.log( matched_emails )
 			if( matched_emails.length ) {
 				// Create chat
+				const users_ref = collection( db, 'users' );
+				const q = query( users_ref, where( 'email', '==', invite_email ), limit( 1 ) );
+				const query_snapshot = await getDocs( q );
+
+				if ( query_snapshot.docs.length === 0 ) {
+					set_error( 'User not found' );
+					set_invite_loading( false );
+					return;
+				}
+
+				const invited_user_id = query_snapshot.docs[0].id
+
+				const data = {
+					members_uid : [ current_user.uid, invited_user_id ]
+				};
+
+				write_to_db( 'chatrooms', data );
+				// Close dialog, open chat
 			} else {
 				set_error( 'User not found' )
 			}
