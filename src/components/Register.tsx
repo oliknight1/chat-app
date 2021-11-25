@@ -9,6 +9,7 @@ import firebase from 'firebase/app';
 import {handle_auth_code} from "../services/user_auth_validation";
 import {updateProfile} from "firebase/auth";
 import {useHistory} from "react-router-dom";
+import {write_to_db} from "../services/database_helpers";
 
 const Register = () => {
 	const [ username, set_username] = useState<string>( '' );
@@ -34,8 +35,9 @@ const Register = () => {
 		}
 		try {
 			set_loading( true )
-			await signup( email.trim(), password.trim() ).then( ( user_credentail : any ) => {
-				updateProfile( user_credentail.user, {
+			await signup( email.trim(), password.trim() ).then( ( user_credential : any ) => {
+				write_to_db( 'users', { uid: user_credential.user.uid } );
+				updateProfile( user_credential.user, {
 					displayName: username.trim(),
 					photoURL: 'https://firebasestorage.googleapis.com/v0/b/picchat-6f594.appspot.com/o/default_user.png?alt=media&token=bb8c6886-db7e-4d67-8a9d-8e227859bd80'
 				} )
