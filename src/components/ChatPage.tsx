@@ -33,7 +33,13 @@ const ChatPage = () => {
 	);
 }
 
-const ChatInviteForm = ( { error, set_error, on_close } : { error : string | null, set_error: React.Dispatch<React.SetStateAction<any>>, on_close : () => void } ) => {
+interface ChatInviteFormProps {
+	error : string | null,
+		set_error : React.Dispatch<React.SetStateAction<any>>,
+		on_close : () => void
+}
+
+const ChatInviteForm = ( { error, set_error, on_close } : ChatInviteFormProps ) => {
 
 	const [ invite_email, set_invite_email ] = useState<string>( '' );
 	const [ invite_loading, set_invite_loading ] = useState<boolean>( false );
