@@ -59,16 +59,25 @@ const ChatInviteForm = ( { error, set_error, on_close } : ChatInviteFormProps ) 
 			if( matched_emails.length ) {
 				// Create chat
 				const users_ref = collection( db, 'users' );
-				const q = query( users_ref, where( 'email', '==', invite_email ), limit( 1 ) );
-				const query_snapshot = await getDocs( q );
+				const users_q = query( users_ref, where( 'email', '==', invite_email ), limit( 1 ) );
+				const users_snapshot = await getDocs( users_q );
+				const invited_user_id = users_snapshot.docs[0].id
 
-				if ( query_snapshot.docs.length === 0 ) {
+				if ( users_snapshot.docs.length === 0 ) {
 					set_error( 'User not found' );
 					set_invite_loading( false );
 					return;
 				}
 
-				const invited_user_id = query_snapshot.docs[0].id
+				const chatrooms_ref = collection( db, 'chatrooms' );
+				const chatroom_q = query( chatrooms_ref, where( 'members_uid', 'array-contains', invited_user_id ) )
+				const chatroom_snapshot = await getDocs( chatroom_q );
+				console.log( chatroom_snapshot )
+				if( chatroom_snapshot.docs.length > 0 ) {
+					set_error( 'Chat with user already exists' );
+					set_invite_loading( false );
+					return;
+				}
 
 				const data = {
 					members_uid : [ current_user.uid, invited_user_id ]
@@ -76,7 +85,7 @@ const ChatInviteForm = ( { error, set_error, on_close } : ChatInviteFormProps ) 
 
 				write_to_db( 'chatrooms', data );
 				// Close dialog, open chat
-				on_close()
+				on_close();
 			} else {
 				set_error( 'User not found' )
 			}
