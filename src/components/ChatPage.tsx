@@ -27,13 +27,14 @@ const ChatPage = () => {
 			<ChatList />
 			<ChatBox />
 			<DialogBox is_open={ isOpen } on_close={ dialog_close_handler } title='Start a chat with a user'>
-				<ChatInviteForm error={ invite_error } set_error={ set_invite_error } />
+				<ChatInviteForm error={ invite_error } set_error={ set_invite_error } on_close={ onClose } />
 			</DialogBox>
 		</Flex>
 	);
 }
 
-const ChatInviteForm = ( { error, set_error } : { error : string | null, set_error: React.Dispatch<React.SetStateAction<any>> } ) => {
+const ChatInviteForm = ( { error, set_error, on_close } : { error : string | null, set_error: React.Dispatch<React.SetStateAction<any>>, on_close : () => void } ) => {
+
 	const [ invite_email, set_invite_email ] = useState<string>( '' );
 	const [ invite_loading, set_invite_loading ] = useState<boolean>( false );
 	const { current_user } = useAuth();
@@ -69,6 +70,7 @@ const ChatInviteForm = ( { error, set_error } : { error : string | null, set_err
 
 				write_to_db( 'chatrooms', data );
 				// Close dialog, open chat
+				on_close()
 			} else {
 				set_error( 'User not found' )
 			}
