@@ -1,5 +1,5 @@
 import {Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
-import {addDoc, collection,  limit, orderBy, query, serverTimestamp} from "firebase/firestore";
+import { collection,  limit, orderBy, query, serverTimestamp } from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
