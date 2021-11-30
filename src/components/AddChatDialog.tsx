@@ -1,10 +1,11 @@
 import { Button, FormControl, FormErrorMessage, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import {fetchSignInMethodsForEmail} from "firebase/auth";
-import {collection, getDocs, limit, query, where} from "firebase/firestore";
+import {collection, getDocs, limit, query, serverTimestamp, where} from "firebase/firestore";
 import {FormEvent, RefObject, useRef, useState} from "react";
 import {auth, db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import {write_to_db} from "../services/database_helpers";
+import {Chatroom} from "../utils/typings";
 
 interface AddChatDialogProps {
 	is_open : boolean,
@@ -34,7 +35,7 @@ interface ChatInviteFormProps {
 	error : string | null,
 	set_error : React.Dispatch<React.SetStateAction<any>>,
 	on_close : () => void,
-	initial_ref :RefObject<HTMLInputElement> 
+	initial_ref :RefObject<HTMLInputElement>
 }
 
 const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInviteFormProps ) => {
@@ -42,12 +43,13 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInvit
 	const [ invite_email, set_invite_email ] = useState<string>( '' );
 	const [ invite_loading, set_invite_loading ] = useState<boolean>( false );
 	const { current_user } = useAuth();
+	const { email, uid } = current_user;
 
 	const handle_chat_invite = async ( e : FormEvent<HTMLFormElement> ) => {
 		e.preventDefault();
 		set_error( null );
 		set_invite_loading( true );
-		if( invite_email === current_user.email ) {
+		if( invite_email === email ) {
 			set_error( 'Cannot invite yourself, sorry!' );
 			set_invite_loading( false );
 			return;
@@ -68,17 +70,16 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInvit
 				}
 
 				const chatrooms_ref = collection( db, 'chatrooms' );
-				const chatroom_q = query( chatrooms_ref, where( 'members_uid', 'array-contains', invited_user_id ) )
+				const chatroom_q = query( chatrooms_ref, where( 'members_uid', 'not-in', [invited_user_id, uid]) )
 				const chatroom_snapshot = await getDocs( chatroom_q );
-				console.log( chatroom_snapshot )
 				if( chatroom_snapshot.docs.length > 0 ) {
 					set_error( 'Chat with user already exists' );
 					set_invite_loading( false );
 					return;
 				}
 
-				const data = {
-					members_uid : [ current_user.uid, invited_user_id ]
+				const data : Chatroom = {
+					members_uid : [ uid, invited_user_id ],
 				};
 
 				write_to_db( 'chatrooms', data );
