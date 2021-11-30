@@ -37,11 +37,16 @@ const Register = () => {
 		try {
 			set_loading( true )
 			await signup( email.trim(), password.trim() ).then( async ( user_credential : any ) => {
-				await setDoc( doc( db, 'users', user_credential.user.uid ), { email : user_credential.user.email } )
+				const photo_url = 'https://firebasestorage.googleapis.com/v0/b/picchat-6f594.appspot.com/o/default_user.png?alt=media&token=bb8c6886-db7e-4d67-8a9d-8e227859bd80'
 				updateProfile( user_credential.user, {
 					displayName: username.trim(),
-					photoURL: 'https://firebasestorage.googleapis.com/v0/b/picchat-6f594.appspot.com/o/default_user.png?alt=media&token=bb8c6886-db7e-4d67-8a9d-8e227859bd80'
-				} )
+					photoURL: photo_url
+				} );
+				await setDoc( doc( db, 'users', user_credential.user.uid ), {
+					email : user_credential.user.email,
+					display_name : username.trim(),
+					photo_url : photo_url
+				} );
 			} );
 			history.push( '/' )
 		} catch( e ) {
