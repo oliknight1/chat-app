@@ -39,7 +39,6 @@ interface ChatInviteFormProps {
 }
 
 
-// TODO : HANDLE EMPTY INPUT
 
 const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInviteFormProps ) => {
 
@@ -63,7 +62,6 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInvit
 				// Create chat
 				const users_ref = collection( db, 'users' );
 				const users_q = query( users_ref, where( 'email', '==', invite_email ), limit( 1 ) );
-				// TODO : Refactor this to use getDoc
 				const users_snapshot = await getDocs( users_q );
 				const invited_user_id = users_snapshot.docs[0].id
 
@@ -76,7 +74,7 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInvit
 				const chatrooms_ref = collection( db, 'chatrooms' );
 				const chatroom_q = query( chatrooms_ref, where( 'members_uid', 'not-in', [invited_user_id, uid]) )
 				const chatroom_snapshot = await getDocs( chatroom_q );
-				// FIXME : think the query is wroing & Refactor conditional to use snapshiot.exists()
+
 				// if( chatroom_snapshot.docs.length > 0 ) {
 				//     set_error( 'Chat with user already exists' );
 				//     set_invite_loading( false );

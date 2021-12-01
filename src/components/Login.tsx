@@ -17,7 +17,6 @@ const Login = () => {
 	const { login } = useAuth();
 	const history = useHistory();
 
-	// TODO: add hsitory link to home page onsubmit
 
 	const handle_submit =  async ( e : Event ) => {
 		e.preventDefault();

@@ -42,7 +42,6 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 
 			// reference to chatroom collection -> current chatroom ->
 			// creates / finds messages subcollection -> creates new ID
-			// TODO: refactor to remove !
 			const ref = doc( db, 'chatrooms', chatroom_uid! , 'messages', nanoid() )
 			await setDoc( ref, message )
 
