@@ -11,3 +11,8 @@ export interface Message {
 	uid : string
 }
 
+export interface Chatroom {
+	members_uid: string[],
+	last_msg_at : FieldValue
+}
+

@@ -1,5 +1,5 @@
 import {Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
-import { collection,  collectionGroup,  doc,  getDocs,  limit, orderBy, query, serverTimestamp, setDoc, where } from "firebase/firestore";
+import { collectionGroup, doc,  orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
@@ -7,7 +7,6 @@ import {Message} from "../utils/typings";
 import ChatMessage from "./ChatMessage";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { SendIcon } from "../utils/icons";
-import {write_to_db} from "../services/database_helpers";
 import { nanoid } from 'nanoid'
 
 
@@ -43,6 +42,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 
 			// reference to chatroom collection -> current chatroom ->
 			// creates / finds messages subcollection -> creates new ID
+			// TODO: refactor to remove !
 			const ref = doc( db, 'chatrooms', chatroom_uid! , 'messages', nanoid() )
 			await setDoc( ref, message )
 
