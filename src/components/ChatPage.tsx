@@ -9,7 +9,6 @@ const ChatPage = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [ invite_error, set_invite_error ] = useState<string | null>( null );
 
-
 	// Make sure to remove the error once the dialog is closed
 	const dialog_close_handler = () => {
 		set_invite_error( null )
