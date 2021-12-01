@@ -4,26 +4,30 @@ import {useEffect, useState} from "react";
 import {db} from "../config/firebase";
 
 interface ChatPreviewProps {
-	uid : string
+	chatter_uid : string,
+	chatroom_uid : string,
+	set_chatroom : React.Dispatch<React.SetStateAction<any>>
+
 }
 
-const ChatPreview = ( { uid } : ChatPreviewProps ) => {
+const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewProps ) => {
 	const [ user, set_user ] = useState<DocumentData>();
 	useEffect( () => {
-		// search user document for uid
+		// search user document for chatter_uid
 		( async () => {
-			const ref = doc( db, 'users', uid )
+			const ref = doc( db, 'users', chatter_uid )
 			const snapshot = await getDoc( ref )
 			if ( snapshot.exists() ) {
 				set_user( snapshot.data() )
 			} 
 		} )();
-	}, [ uid ] );
+	}, [ chatter_uid ] );
 	if ( !user ) {
 		return null;
 	}
+	
 	return (
-		<Button w='md' h='fit-content' variant='unstyled' fontWeight='inherit' textAlign='left' _hover={{ backgroundColor : 'gray.100' }} borderRadius='none'>
+		<Button onClick={ () => set_chatroom( chatroom_uid ) } w='md' h='fit-content' variant='unstyled' fontWeight='inherit' textAlign='left' _hover={{ backgroundColor : 'gray.100' }} borderRadius='none'>
 			<Flex align='center'>
 				<img src={ user.photo_url } alt='Profile'/>
 				<Box maxW='xs'>

@@ -1,5 +1,5 @@
 import {Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
-import { collection,  limit, orderBy, query, serverTimestamp } from "firebase/firestore";
+import { collection,  collectionGroup,  doc,  getDocs,  limit, orderBy, query, serverTimestamp, setDoc, where } from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
@@ -8,9 +8,14 @@ import ChatMessage from "./ChatMessage";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { SendIcon } from "../utils/icons";
 import {write_to_db} from "../services/database_helpers";
+import { nanoid } from 'nanoid'
 
 
-const ChatBox = () => {
+interface ChatBoxProps {
+	chatroom_uid : string | null
+}
+
+const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 	// Input state
 	const [ new_message, set_new_message ] = useState<string>( '' );
 
@@ -20,11 +25,14 @@ const ChatBox = () => {
 	const { uid } = current_user;
 
 	// Handle getting data
-	const messages_ref = collection( db, 'messages' )
-	const q = query( messages_ref, orderBy( 'timestamp' ), limit( 25 ) )
+	// const messages_ref = collection( db, 'messages' );
+	// const q = query( messages_ref, where( 'chatroom_uid', '==', chatroom_uid ) );
+
+
+	const q = query( collectionGroup( db, 'messages' ), orderBy( 'timestamp' ) );
 	const [ messages,loading ] = useCollectionData (q, { idField: 'id' } );
 
-	const message_form_handler = ( e : ChangeEvent<HTMLFormElement> ) => {
+	const message_form_handler = async ( e : ChangeEvent<HTMLFormElement> ) => {
 		e.preventDefault();
 		if( new_message.length > 0 ) {
 			const message: Message = {
@@ -32,7 +40,12 @@ const ChatBox = () => {
 				timestamp: serverTimestamp() ,
 				uid,
 			}
-			write_to_db( 'messages', message, set_message_post_error);
+
+			// reference to chatroom collection -> current chatroom ->
+			// creates / finds messages subcollection -> creates new ID
+			const ref = doc( db, 'chatrooms', chatroom_uid! , 'messages', nanoid() )
+			await setDoc( ref, message )
+
 			set_new_message( '' );
 		}
 
