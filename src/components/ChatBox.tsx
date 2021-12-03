@@ -1,5 +1,5 @@
-import {Container, Fade, Flex, Input, InputGroup, InputRightElement, Spinner} from "@chakra-ui/react";
-import { collection, collectionGroup, doc,  orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
+import {Fade, Flex, Input, InputGroup, InputRightElement, Spinner} from "@chakra-ui/react";
+import { collection, doc, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
@@ -17,7 +17,6 @@ interface ChatBoxProps {
 const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 	// Input state
 	const [ new_message, set_new_message ] = useState<string>( '' );
-	const [ message_post_error, set_message_post_error ] = useState<string | null>( null )
 
 	const messages_ref = collection( db, 'chatrooms', chatroom_uid, 'messages' );
 	const messages_q = query( messages_ref, orderBy( 'timestamp' ) );
