@@ -1,10 +1,9 @@
-import {Box, Container, VStack, Text, Flex, Heading, SimpleGrid, Spinner } from "@chakra-ui/react";
+import {Box, VStack, Text, Flex, Heading, SimpleGrid, Spinner, Fade, SlideFade } from "@chakra-ui/react";
 import {collection, FieldValue, getDoc, getDocs, limit, orderBy, query, where, doc } from "firebase/firestore";
 import {useEffect, useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import {Message, UserData} from "../utils/typings";
-import { motion } from 'framer-motion'
 
 
 interface DashboardItem  {
@@ -75,10 +74,9 @@ const ChatDashboard = ( { set_chatroom , visible } : ChatDashboardProps ) => {
 	}, [] );
 	return (
 		<Box w='100%' h='100%' opacity={ visible ? 1 : 0 }>
-			{
-				is_loading &&
-					<Spinner position='absolute' top='50%' left='46%' opacity={ is_loading ? 1 : 0 } transition='opacity ease 0.2s'/>
-			}
+			<Fade in={ is_loading }>
+				<Spinner position='absolute' top='50%' left='46%' />
+			</Fade>
 			<Heading mb={ 10 } fontWeight='500'>All rooms</Heading>
 				{
 					chats.length === 0 && is_loading === false &&
@@ -96,7 +94,8 @@ const ChatDashboard = ( { set_chatroom , visible } : ChatDashboardProps ) => {
 								user_data={ chat.user_data }
 								messages={ chat.messages }
 								chatroom_uid={ chat.chatroom_uid }
-								set_chatroom={ set_chatroom } />
+								set_chatroom={ set_chatroom }
+							/>
 						);
 					} )
 				}
@@ -112,11 +111,10 @@ interface ChatroomPreviewProps {
 	chatroom_uid: string
 }
 
-const MotionBox = motion( Box );
-
 const ChatroomPreview = ( { user_data, messages, set_chatroom, chatroom_uid } : ChatroomPreviewProps ) => {
 	return (
-		<MotionBox
+		<SlideFade in={ true } offsetY='50px'>
+		<Box
 			as='button'
 			minW='sm' maxW='md'
 			h='fit-content'
@@ -125,9 +123,8 @@ const ChatroomPreview = ( { user_data, messages, set_chatroom, chatroom_uid } : 
 			p={ 4 }
 			rounded='2xl'
 			boxShadow='md'
-			whilehover={{ opacity: 0 }}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
+			_hover={{ boxShadow: 'xl' }}
+			style={{ transition: 'box-shadow ease-in-out 0.1s' }}
 			onClick={ () => set_chatroom( chatroom_uid ) }
 		>
 			<Flex flexDir='row' alignItems='center'>
@@ -151,7 +148,8 @@ const ChatroomPreview = ( { user_data, messages, set_chatroom, chatroom_uid } : 
 					</VStack>
 				</Box>
 			</Flex>
-		</MotionBox>
+		</Box>
+	</SlideFade>
 	);
 }
 
