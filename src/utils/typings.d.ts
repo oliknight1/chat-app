@@ -14,7 +14,8 @@ export interface UserData {
 export interface Message {
 	text : string,
 	timestamp: FieldValue,
-	uid : string
+	user_uid : string,
+	id? : string
 }
 
 export interface Chatroom {

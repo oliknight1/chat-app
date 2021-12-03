@@ -37,7 +37,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 			const message: Message = {
 				text: new_message.trim(),
 				timestamp: serverTimestamp() ,
-				uid,
+				user_uid : uid,
 			}
 
 			// reference to chatroom collection -> current chatroom ->
