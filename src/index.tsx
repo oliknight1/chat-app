@@ -14,19 +14,22 @@ const theme = extendTheme(
 		components:{
 			Spinner: {
 				baseStyle: ( props: SpinnerProps ) => {
-					const { color, thickness, emptyColor } = props
+					const { color, thickness, emptyColor, transition } = props
 					return {
 						color,
 						borderWidth: thickness,
 						borderBottomColor: emptyColor,
-						borderLeftColor: emptyColor
+						borderLeftColor: emptyColor,
+						transition 
+
 					}
 				},
 				defaultProps: {
 					size: 'xl',
 					thickness: '4px',
 					color: 'teal.dark',
-					emptyColor: 'gray.300'
+					emptyColor: 'gray.300',
+					transition: 'all ease 4s'
 				}
 			}
 		}
@@ -35,9 +38,7 @@ const theme = extendTheme(
 
 ReactDOM.render(
 	<ChakraProvider theme={ theme }>
-		<React.StrictMode>
-			<App />
-		</React.StrictMode>
+		<App />
 	</ChakraProvider>,
 	document.getElementById('root')
 );
