@@ -6,9 +6,10 @@ interface ChatMessageProps {
 }
 
 const ChatMessage = ( { message, recieved_message } : ChatMessageProps ) => {
+console.log( recieved_message )
 	return (
-		<Box alignSelf={ recieved_message ? 'flex-start' : 'flex-end' }>
-			<Box backgroundColor={ recieved_message ? 'gray' : 'teal.dark' } my={ 5 } w='fit-content' py={ 3 } px={ 6 } borderRadius='xl' >
+		<Box alignSelf={ recieved_message ? 'flex-end' : 'flex-start' }>
+			<Box backgroundColor={ recieved_message ? 'teal.dark' : 'gray.400' } my={ 5 } w='fit-content' py={ 3 } px={ 6 } borderRadius='xl' >
 				<Text>{ message }</Text>
 			</Box>
 		</Box>
