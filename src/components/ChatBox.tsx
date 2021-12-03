@@ -1,5 +1,5 @@
 import {Container, Fade, Flex, Input, InputGroup, InputRightElement, Spinner} from "@chakra-ui/react";
-import { collectionGroup, doc,  orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
+import { collection, collectionGroup, doc,  orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
@@ -11,7 +11,7 @@ import { nanoid } from 'nanoid'
 
 
 interface ChatBoxProps {
-	chatroom_uid : string | null
+	chatroom_uid : string
 }
 
 const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
@@ -19,8 +19,9 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 	const [ new_message, set_new_message ] = useState<string>( '' );
 	const [ message_post_error, set_message_post_error ] = useState<string | null>( null )
 
-	const q = query( collectionGroup( db, 'messages' ), orderBy( 'timestamp' ) );
-	const [ messages,loading ] = useCollectionData (q, { idField: 'id' } );
+	const messages_ref = collection( db, 'chatrooms', chatroom_uid, 'messages' );
+	const messages_q = query( messages_ref, orderBy( 'timestamp' ) );
+	const [ messages,loading ] = useCollectionData (messages_q, { idField: 'id' } );
 
 	const { current_user } = useAuth();
 	const { uid } = current_user;
