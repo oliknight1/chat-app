@@ -1,8 +1,14 @@
 export interface AppContext {
-	current_user : User,
+	current_user: User,
 	signup: any,
 	login: any,
 	logout : any
+}
+
+export interface UserData {
+	display_name : string,
+	email: string,
+	photo_url: string
 }
 
 export interface Message {
