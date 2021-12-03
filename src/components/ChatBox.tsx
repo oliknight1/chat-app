@@ -1,4 +1,4 @@
-import {Container, Flex, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
+import {Container, Fade, Flex, Input, InputGroup, InputRightElement, Spinner} from "@chakra-ui/react";
 import { collectionGroup, doc,  orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
@@ -53,10 +53,9 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 	return (
 		<Flex flexDir='column' justifyContent='space-between' h='100%'>
 			<Flex flexDir='column'>
-				{
-					loading === true &&
-					<p>LOADING</p>
-				}
+				<Fade in={ loading }>
+					<Spinner position='absolute' top='50%' left='46%' />
+				</Fade>
 				{ messages &&
 						messages.map( message => {
 						return (
