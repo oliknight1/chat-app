@@ -5,7 +5,6 @@ import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import {Message, UserData} from "../utils/typings";
 import { motion } from 'framer-motion'
-import {argv0} from "process";
 
 
 interface DashboardItem  {
@@ -37,6 +36,10 @@ const ChatDashboard = ( { set_chatroom , visible } : ChatDashboardProps ) => {
 
 			// An array containing data on the chatroom & containing limited messages from the chatroom
 			let data : DashboardItem[] = []
+			if( chatroom_snapshot.docs.length === 0 ) {
+				set_is_loading( false );
+				return;
+			}
 			chatroom_snapshot.docs.forEach( async ( document )  => {
 
 				const last_msg_at = document.data().last_msg_at.toDate();
@@ -65,20 +68,20 @@ const ChatDashboard = ( { set_chatroom , visible } : ChatDashboardProps ) => {
 				data = [...data, data_to_add];
 				set_chats( chats?.concat( data ) );
 
+				set_is_loading( false )
 			} );
 		} )();
-		set_is_loading( false )
 
 	}, [] );
 	return (
 		<Box w='100%' h='100%' opacity={ visible ? 1 : 0 }>
 			{
 				is_loading &&
-					<Spinner color='teal.dark' size='xl' thickness='4px'  position='absolute' top='50%' left='46%' opacity={ is_loading ? 1 : 0 } transition='opacity ease 0.2s'/>
+					<Spinner position='absolute' top='50%' left='46%' opacity={ is_loading ? 1 : 0 } transition='opacity ease 0.2s'/>
 			}
 			<Heading mb={ 10 } fontWeight='500'>All rooms</Heading>
 				{
-					chats.length === 0 &&
+					chats.length === 0 && is_loading === false &&
 					<Box rounded='2xl' maxWidth='lg' boxShadow='md' background='white' margin='auto' p={ 10 }>
 						<Heading fontSize='2xl' color='teal.dark' mb={ 4 }>You have no open chatrooms</Heading>
 						<Text>Click the + icon to get started!</Text>
