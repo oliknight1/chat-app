@@ -29,8 +29,9 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 				const ref = collection( db, 'chatrooms', chatroom_uid, 'messages' )
 				const q = query( ref, orderBy( 'timestamp', 'desc' ) );
 				const messages_snapshot = await getDocs( q );
-				const find_helper = ( doc  : any) => {
-					if(doc.data().uid === user_snapshot.id ) {
+
+				const find_helper = ( doc  : DocumentData ) => {
+					if( doc.data().user_uid === user_snapshot.id ) {
 						return doc.data()
 					}
 				}
