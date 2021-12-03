@@ -17,19 +17,14 @@ interface ChatBoxProps {
 const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 	// Input state
 	const [ new_message, set_new_message ] = useState<string>( '' );
-
 	const [ message_post_error, set_message_post_error ] = useState<string | null>( null )
+
+	const q = query( collectionGroup( db, 'messages' ), orderBy( 'timestamp' ) );
+	const [ messages,loading ] = useCollectionData (q, { idField: 'id' } );
 
 	const { current_user } = useAuth();
 	const { uid } = current_user;
 
-	// Handle getting data
-	// const messages_ref = collection( db, 'messages' );
-	// const q = query( messages_ref, where( 'chatroom_uid', '==', chatroom_uid ) );
-
-
-	const q = query( collectionGroup( db, 'messages' ), orderBy( 'timestamp' ) );
-	const [ messages,loading ] = useCollectionData (q, { idField: 'id' } );
 
 	const message_form_handler = async ( e : ChangeEvent<HTMLFormElement> ) => {
 		e.preventDefault();
