@@ -56,31 +56,29 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 	}
 
 	return (
-		<Container background='gray.100' maxW='80%' h='100%' pb={ 4 } pt={ 8 }>
-			<Flex flexDir='column' justifyContent='space-between' h='100%'>
-				<Flex flexDir='column'>
-					{
-						loading === true &&
-						<p>LOADING</p>
-					}
-					{ messages &&
-							messages.map( message => {
-							return (
-								<ChatMessage message={ message.text } recieved_message = { message.uid !== uid } key={ message.timestamp }/>
-							);
-						} )
-					}
+		<Flex flexDir='column' justifyContent='space-between' h='100%'>
+			<Flex flexDir='column'>
+				{
+					loading === true &&
+					<p>LOADING</p>
+				}
+				{ messages &&
+						messages.map( message => {
+						return (
+							<ChatMessage message={ message.text } recieved_message = { message.uid !== uid } key={ message.timestamp }/>
+						);
+					} )
+				}
+			</Flex>
+			<form onSubmit={ message_form_handler }>
+				<Flex>
+					<InputGroup mt={ 10 }>
+						<Input type='text' _hover={{ backgroundColor: 'white' }} _focus={{ backgroundColor : 'white' }} variant='filled' backgroundColor='white' py={ 6 } value={ new_message } onChange={ handle_new_message } placeholder='Enter a message' mr={ 3 }/>
+						<InputRightElement right='40px' top='10%' children={ <SendIcon width='20px' height='20px' /> } />
+					</InputGroup>
 				</Flex>
-				<form onSubmit={ message_form_handler }>
-					<Flex>
-						<InputGroup mt={ 10 }>
-							<Input type='text' _hover={{ backgroundColor: 'white' }} _focus={{ backgroundColor : 'white' }} variant='filled' backgroundColor='white' py={ 6 } value={ new_message } onChange={ handle_new_message } placeholder='Enter a message' mr={ 3 }/>
-							<InputRightElement right='40px' top='10%' children={ <SendIcon width='20px' height='20px' /> } />
-						</InputGroup>
-					</Flex>
-				</form>
+			</form>
 		</Flex>
-		</Container>
 	);
 }
 export default ChatBox;

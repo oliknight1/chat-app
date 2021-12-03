@@ -14,7 +14,12 @@ interface DashboardItem  {
 	messages : Message[]
 }
 
-const ChatDashboard = () => {
+interface ChatDashboardProps {
+	set_chatroom : React.Dispatch<React.SetStateAction<any>>,
+	visible : boolean
+}
+
+const ChatDashboard = ( { set_chatroom , visible } : ChatDashboardProps ) => {
 	const { current_user } = useAuth();
 	const { uid } = current_user
 
@@ -65,26 +70,37 @@ const ChatDashboard = () => {
 
 	}, [] );
 	return (
-		<Container background='gray.100' maxW='80%' h='100%' p={ 10 } position='relative'>
+		<Box w='100%' h='100%' opacity={ visible ? 1 : 0 }>
 			<Spinner color='teal.dark' size='xl' thickness='4px'  position='absolute' top='50%' left='46%' opacity={ is_loading ? 1 : 0 } transition='opacity ease 0.2s'/>
 			<Heading mb={ 10 } fontWeight='500'>All rooms</Heading>
-			<SimpleGrid minChildWidth='320px' gap={ 10 }>
+			<SimpleGrid minChildWidth='180px'>
 				{
-					chats.map( ( chat : DashboardItem ) => <ChatroomPreview key={ chat.chatroom_uid } user_data={ chat.user_data } messages={ chat.messages } /> )
+					chats.map( ( chat : DashboardItem ) => {
+						return(
+							<ChatroomPreview
+								key={ chat.chatroom_uid }
+								user_data={ chat.user_data }
+								messages={ chat.messages }
+								chatroom_uid={ chat.chatroom_uid }
+								set_chatroom={ set_chatroom } />
+						);
+					} )
 				}
 			</SimpleGrid>
-		</Container>
+		</Box>
 	)
 }
 
 interface ChatroomPreviewProps {
 	user_data : UserData,
-	messages : Message[]
+	messages : Message[],
+	set_chatroom : React.Dispatch<React.SetStateAction<any>>,
+	chatroom_uid: string
 }
 
 const MotionBox = motion( Box );
 
-const ChatroomPreview = ( { user_data, messages } : ChatroomPreviewProps ) => {
+const ChatroomPreview = ( { user_data, messages, set_chatroom, chatroom_uid } : ChatroomPreviewProps ) => {
 	return (
 		<MotionBox
 			as='button'
@@ -98,6 +114,7 @@ const ChatroomPreview = ( { user_data, messages } : ChatroomPreviewProps ) => {
 			whilehover={{ opacity: 0 }}
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
+			onClick={ () => set_chatroom( chatroom_uid ) }
 		>
 			<Flex flexDir='row' alignItems='center'>
 				<img src={ user_data.photo_url } alt='user avatar' height='48px' width='48px'/>

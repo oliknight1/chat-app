@@ -4,10 +4,11 @@ import {useAuth} from "../contexts/auth_context"
 import { HomeIcon, AddIcon, AccountIcon, LogOutIcon } from "../utils/icons"
 
 interface SidebarProps {
-	dialog_hanlder : () => void
+	dialog_hanlder : () => void,
+	set_chatroom : React.Dispatch<React.SetStateAction<any>>
 }
 
-const Sidebar = ( { dialog_hanlder } : SidebarProps ) => {
+const Sidebar = ( { dialog_hanlder, set_chatroom } : SidebarProps ) => {
 	const { logout } = useAuth();
 	const history = useHistory();
 	const handle_logout = async () => {
@@ -22,7 +23,7 @@ const Sidebar = ( { dialog_hanlder } : SidebarProps ) => {
 	return (
 		<Flex h='100%' backgroundColor='teal.dark' p={ 8 } flexDir='column' justifyContent='space-between'>
 			<VStack spacing={ 8 }>
-				<HomeIcon boxSize={ 10 } color='white' />	
+				<Button variant='unstyled' onClick={ () => set_chatroom( null ) }><HomeIcon boxSize={ 10 } color='white' /></Button>
 				<Button variant='unstyled' onClick={ dialog_hanlder }><AddIcon boxSize={ 10 } color='white' /></Button>
 			</VStack>
 			<VStack spacing={ 8 }>
