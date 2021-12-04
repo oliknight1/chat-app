@@ -34,6 +34,7 @@ const ChatPage = () => {
 				title='Start a chat with a user'
 				error_message={ invite_error }
 				set_error_message={ set_invite_error }
+				set_chatroom_uid={ set_chatroom_uid }
 			/>
 		</Flex>
 	);

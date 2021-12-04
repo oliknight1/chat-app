@@ -1,10 +1,9 @@
 import { Button, FormControl, FormErrorMessage, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import {fetchSignInMethodsForEmail} from "firebase/auth";
-import {collection, getDocs, limit, query, serverTimestamp, where} from "firebase/firestore";
+import {addDoc, collection, getDocs, limit, query, serverTimestamp, where} from "firebase/firestore";
 import {FormEvent, RefObject, useRef, useState} from "react";
 import {auth, db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
-import {write_to_db} from "../services/database_helpers";
 import {Chatroom} from "../utils/typings";
 
 interface AddChatDialogProps {
@@ -13,8 +12,9 @@ interface AddChatDialogProps {
 	title : string,
 	error_message : string | null,
 	set_error_message : React.Dispatch<React.SetStateAction<any>>,
+	set_chatroom_uid : React.Dispatch<React.SetStateAction<any>>,
 }
-const AddChatDialog = ( { is_open, on_close, title, error_message, set_error_message } : AddChatDialogProps ) => {
+const AddChatDialog = ( { is_open, on_close, title, error_message, set_error_message, set_chatroom_uid } : AddChatDialogProps ) => {
 	const initial_ref = useRef( null );
 	return (
 		<>
@@ -24,7 +24,7 @@ const AddChatDialog = ( { is_open, on_close, title, error_message, set_error_mes
 					<ModalHeader>{ title }</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={ 10 }>
-						<ChatInviteForm error={ error_message } set_error={ set_error_message } on_close={ on_close } initial_ref={ initial_ref } /> 
+						<ChatInviteForm error={ error_message } set_error={ set_error_message } on_close={ on_close } initial_ref={ initial_ref } set_chatroom_uid={ set_chatroom_uid } /> 
 					</ModalBody>
 				</ModalContent>
 			</Modal>
@@ -35,12 +35,13 @@ interface ChatInviteFormProps {
 	error : string | null,
 	set_error : React.Dispatch<React.SetStateAction<any>>,
 	on_close : () => void,
-	initial_ref :RefObject<HTMLInputElement>
+	initial_ref :RefObject<HTMLInputElement>,
+	set_chatroom_uid: React.Dispatch<React.SetStateAction<any>>
 }
 
 
 
-const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInviteFormProps ) => {
+const ChatInviteForm = ( { error, set_error, on_close, initial_ref, set_chatroom_uid } : ChatInviteFormProps ) => {
 
 	const [ invite_email, set_invite_email ] = useState<string>( '' );
 	const [ invite_loading, set_invite_loading ] = useState<boolean>( false );
@@ -91,10 +92,11 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInvit
 					last_msg_at: serverTimestamp()
 				};
 
-				write_to_db( 'chatrooms', data );
+				const new_doc_ref = await addDoc( collection( db, 'chatrooms' ), data );
 
 				// Close dialog, open chat
 				on_close();
+				set_chatroom_uid( new_doc_ref.id )
 
 			} else {
 				set_error( 'User not found' )
