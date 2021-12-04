@@ -58,7 +58,6 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 				</Fade>
 				{ messages &&
 						messages.map( message => {
-							console.log( message )
 						return (
 							<ChatMessage timestamp={ message.timestamp?.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.timestamp }/>
 						);
