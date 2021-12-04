@@ -14,6 +14,7 @@ interface ChatPreviewProps {
 
 const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewProps ) => {
 	const [ user, set_user ] = useState<DocumentData>();
+	const [ img_loaded, set_img_loaded ] = useState<boolean>( false );
 
 	const ref = collection( db, 'chatrooms', chatroom_uid, 'messages' )
 	const q = query( ref, orderBy( 'timestamp', 'desc' ), limit( 1 ) );
@@ -40,9 +41,19 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 	}
 
 	return (
-		<Button onClick={ () => set_chatroom( chatroom_uid ) } w='md' h='fit-content' variant='unstyled' fontWeight='inherit' textAlign='left' _hover={{ backgroundColor : 'gray.100' }} borderRadius='none'>
+		<Button
+			onClick={ () => set_chatroom( chatroom_uid ) }
+			w='md'
+			h='fit-content'
+			variant='unstyled'
+			fontWeight='inherit'
+			textAlign='left'
+			_hover={{ backgroundColor : 'gray.100' }}
+			borderRadius='none'
+			opacity={ img_loaded ? 1 : 0 }
+		>
 			<Flex align='center'>
-				<img src={ user.photo_url } alt='Profile'/>
+				<img src={ user.photo_url } alt='Profile' onLoad={ () => { set_img_loaded( true ) } }/>
 				<Box maxW='xs'>
 					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
 					{
