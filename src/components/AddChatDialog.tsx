@@ -57,6 +57,8 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInvit
 			return;
 		}
 		if( invite_email.length > 0 ) {
+			// Doesnt't return user data, only returns what methods they can sign in with
+			// If it returns nothing then no user was found
 			const matched_emails = await fetchSignInMethodsForEmail( auth, invite_email )
 			if( matched_emails.length ) {
 				// Create chat
@@ -72,14 +74,17 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInvit
 				}
 
 				const chatrooms_ref = collection( db, 'chatrooms' );
-				const chatroom_q = query( chatrooms_ref, where( 'members_uid', 'not-in', [invited_user_id, uid]) )
+				const chatroom_q = query( chatrooms_ref, where( 'members_uid', 'in', [[uid, invited_user_id]]) )
 				const chatroom_snapshot = await getDocs( chatroom_q );
 
-				// if( chatroom_snapshot.docs.length > 0 ) {
-				//     set_error( 'Chat with user already exists' );
-				//     set_invite_loading( false );
-				//     return;
-				// }
+				console.log( chatroom_snapshot.docs )
+
+				console.log( chatroom_snapshot.docs.length )
+				if( chatroom_snapshot.docs.length > 0 ) {
+					set_error( 'Chat with user already exists' );
+					set_invite_loading( false );
+					return;
+				}
 
 				const data : Chatroom = {
 					members_uid : [ uid, invited_user_id ],
@@ -87,8 +92,10 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref } : ChatInvit
 				};
 
 				write_to_db( 'chatrooms', data );
+
 				// Close dialog, open chat
 				on_close();
+
 			} else {
 				set_error( 'User not found' )
 			}

@@ -54,7 +54,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 				<Box maxW='70%' >
 					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
 					{
-						latest_msg &&
+						latest_msg && latest_msg.length  > 0 &&
 						<Text isTruncated color='gray.500' fontWeight='light' mt={ 2 }>{ latest_msg[0].user_uid === uid ? 'You: ': `${ user.display_name.split( ' ' )[0] }: ` }{ latest_msg[0].text }</Text>
 					}
 				</Box>
