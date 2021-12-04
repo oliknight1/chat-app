@@ -51,6 +51,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 			_hover={{ boxShadow: 'lg' }}
 			borderRadius='none'
 			opacity={ img_loaded ? 1 : 0 }
+			pl={ 5 }
 		>
 			<Flex align='center'>
 				<img src={ user.photo_url } alt='Profile' onLoad={ () => { set_img_loaded( true ) } }/>

@@ -19,7 +19,7 @@ const ChatList = ( { set_chatroom } : ChatListProps ) => {
 
 	return (
 		<SlideFade in={ true }>
-			<VStack spacing={ 10 } background='white' py={ 5 } pl={ 5 }>
+			<VStack spacing={ 10 } background='white' py={ 5 }>
 			{
 				chats?.map( chat => {
 					const chatter_uid = chat.members_uid.filter( ( member_uid : string ) => member_uid !== uid );
