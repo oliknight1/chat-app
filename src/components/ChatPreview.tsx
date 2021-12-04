@@ -48,7 +48,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 			variant='unstyled'
 			fontWeight='inherit'
 			textAlign='left'
-			_hover={{ backgroundColor : 'gray.100' }}
+			_hover={{ boxShadow: 'lg' }}
 			borderRadius='none'
 			opacity={ img_loaded ? 1 : 0 }
 		>
