@@ -1,6 +1,6 @@
 import { Box, Text, Image, ScaleFade, Flex } from "@chakra-ui/react";
 import {useState} from "react";
-import {get_user_by_id} from "../services/database_helpers";
+import {get_doc_by_id} from "../services/database_helpers";
 
 interface ChatMessageProps {
 	message : string,
@@ -13,7 +13,7 @@ const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessage
 	const [ photo_url, set_photo_url ] = useState<string>( '' );
 	const [ img_loaded, set_img_loaded ] = useState<boolean>( false )
 
-	get_user_by_id( sender_uid ).then ( doc => doc.data() ).then( data => set_photo_url( data.photo_url ) );
+	get_doc_by_id( 'users', sender_uid ).then ( doc => doc.data() ).then( data => set_photo_url( data.photo_url ) );
 
 	return (
 		<Box alignSelf={ received ?  'flex-start' : 'flex-end'}>

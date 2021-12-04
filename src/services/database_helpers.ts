@@ -11,6 +11,6 @@ export const write_to_db = async <T>( document : string, data : T, error_handler
 	}
 }
 
-export const get_user_by_id = async ( id: string ) : Promise<DocumentData>  => {
-	return getDoc( doc( db, 'users', id ) );
+export const get_doc_by_id = async ( doc_name : string, id : string ) : Promise<DocumentData> => {
+	return getDoc( doc( db, doc_name, id ) );
 }
