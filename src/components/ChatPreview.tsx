@@ -54,7 +54,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 		>
 			<Flex align='center'>
 				<img src={ user.photo_url } alt='Profile' onLoad={ () => { set_img_loaded( true ) } }/>
-				<Box maxW='xs'>
+				<Box maxW='70%' >
 					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
 					{
 						latest_msg &&
