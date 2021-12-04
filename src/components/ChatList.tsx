@@ -2,7 +2,7 @@ import {collection, orderBy, query, where} from "firebase/firestore";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import {SlideFade, Spinner, VStack} from "@chakra-ui/react";
+import {SlideFade, VStack} from "@chakra-ui/react";
 import ChatPreview from "./ChatPreview";
 
 interface ChatListProps {
@@ -15,7 +15,7 @@ const ChatList = ( { set_chatroom } : ChatListProps ) => {
 
 	const chatroom_ref = collection( db, 'chatrooms' );
 	const q = query( chatroom_ref, where( 'members_uid', 'array-contains', uid ) , orderBy( 'last_msg_at' ));
-	const [ chats, loading ] = useCollectionData (q, { idField: 'id' } );
+	const [ chats ] = useCollectionData (q, { idField: 'id' } );
 
 	return (
 		<SlideFade in={ true }>
