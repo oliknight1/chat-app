@@ -34,11 +34,10 @@ const ChatDashboard = ( { set_chatroom , visible } : ChatDashboardProps ) => {
 
 	useEffect( () => {
 		( async () => {
-			set_is_loading( true );
 
 			if( chatrooms?.length ) {
+			set_is_loading( true );
 				chatrooms.forEach( async ( chatroom ) => {
-
 					// Get data of the user that the current user is chatting with
 					const chatter_uid = chatroom.members_uid.find( ( chatter_uid : string ) => chatter_uid !== uid );
 					const user_snapshot = await getDoc( doc( db, 'users', chatter_uid ) );
@@ -65,9 +64,9 @@ const ChatDashboard = ( { set_chatroom , visible } : ChatDashboardProps ) => {
 						]
 					);
 
+					set_is_loading( false );
 				} );
 			}
-			set_is_loading( false );
 		} )();
 	}, [ chatrooms ] );
 	return (
