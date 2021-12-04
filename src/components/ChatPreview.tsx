@@ -3,21 +3,24 @@ import { collection, doc, DocumentData, getDoc, limit, orderBy, query } from "fi
 import {useEffect, useState} from "react";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import {db} from "../config/firebase";
+import {useAuth} from "../contexts/auth_context";
 
 interface ChatPreviewProps {
 	chatter_uid : string,
-		chatroom_uid : string,
-		set_chatroom : React.Dispatch<React.SetStateAction<any>>
+	chatroom_uid : string,
+	set_chatroom : React.Dispatch<React.SetStateAction<any>>
 
 }
 
 const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewProps ) => {
 	const [ user, set_user ] = useState<DocumentData>();
-	// const [ latest_msg, set_latest_msg ] = useState<string>( '' )
 
 	const ref = collection( db, 'chatrooms', chatroom_uid, 'messages' )
 	const q = query( ref, orderBy( 'timestamp', 'desc' ), limit( 1 ) );
 	const [ latest_msg ] = useCollectionData( q, { idField: 'id' } )
+
+	const { current_user } = useAuth();
+	const { uid } = current_user;
 
 	useEffect( () => {
 		// Search user document for chatter_uid
@@ -42,7 +45,10 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 				<img src={ user.photo_url } alt='Profile'/>
 				<Box maxW='xs'>
 					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
-					<Text isTruncated>{ latest_msg ? latest_msg[0].text : null }</Text>
+					{
+						latest_msg &&
+						<Text isTruncated color='gray.500' fontWeight='light' mt={ 2 }>{ latest_msg[0].user_uid === uid ? 'You: ': `${ user.display_name.split( ' ' )[0] }: ` }{ latest_msg[0].text }</Text>
+					}
 				</Box>
 			</Flex>
 		</Button>
