@@ -17,18 +17,17 @@ const ChatList = ( { set_chatroom } : ChatListProps ) => {
 	const q = query( chatroom_ref, where( 'members_uid', 'array-contains', uid ) , orderBy( 'last_msg_at' ));
 	const [ chats, loading ] = useCollectionData (q, { idField: 'id' } );
 
-console.log( loading )
 	return (
-		<VStack spacing={ 10 } background='white'>
-			<SlideFade in={ true }>
+		<SlideFade in={ true }>
+			<VStack spacing={ 10 } background='white'>
 			{
 				chats?.map( chat => {
 					const chatter_uid = chat.members_uid.filter( ( member_uid : string ) => member_uid !== uid );
 					return (<ChatPreview key={ chatter_uid[0] } chatroom_uid={ chat.id } chatter_uid={ chatter_uid[0] } set_chatroom={ set_chatroom } /> )
 				})
 			}
-			</SlideFade>
 		</VStack>
+	</SlideFade>
 	)
 }
 export default ChatList;
