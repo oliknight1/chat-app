@@ -59,7 +59,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 				{ messages &&
 						messages.map( message => {
 						return (
-							<ChatMessage message={ message.text } received={ message.user_uid !== uid } key={ message.timestamp }/>
+							<ChatMessage message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.timestamp }/>
 						);
 					} )
 				}
