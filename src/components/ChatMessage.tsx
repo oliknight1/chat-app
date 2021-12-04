@@ -6,7 +6,6 @@ interface ChatMessageProps {
 }
 
 const ChatMessage = ( { message, recieved_message } : ChatMessageProps ) => {
-console.log( recieved_message )
 	return (
 		<Box alignSelf={ recieved_message ? 'flex-end' : 'flex-start' }>
 			<Box backgroundColor={ recieved_message ? 'teal.dark' : 'gray.400' } my={ 5 } w='fit-content' py={ 3 } px={ 6 } borderRadius='xl' >
