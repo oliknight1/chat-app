@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
+import {get_user_by_id} from "../services/database_helpers";
 
 interface ChatPreviewProps {
 	chatter_uid : string,
@@ -24,17 +25,12 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 	const { uid } = current_user;
 
 	useEffect( () => {
-		// Search user document for chatter_uid
-		( async () => {
-			const user_ref = doc( db, 'users', chatter_uid )
-			const user_snapshot = await getDoc( user_ref )
-			if ( user_snapshot.exists() ) {
-				set_user({
-						uid : user_snapshot.id,
-						...user_snapshot.data()
-					});
-			}
-		} )();
+		get_user_by_id( chatter_uid ).then( doc => {
+			set_user( {
+				uid: doc.id,
+				...doc.data()
+			} )
+		} )
 	}, [ chatter_uid, chatroom_uid ] );
 	if ( !user ) {
 		return null;
