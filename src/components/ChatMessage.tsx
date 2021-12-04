@@ -31,6 +31,7 @@ const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessage
 								color='gray'
 								fontWeight='light'
 								fontSize='sm'
+								whiteSpace='nowrap'
 							>
 							{ timestamp.toLocaleString() }
 							</Text>
