@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { collection, doc, DocumentData, getDoc, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, doc, DocumentData, getDoc, limit, orderBy, query } from "firebase/firestore";
 import {useEffect, useState} from "react";
+import {useCollectionData} from "react-firebase-hooks/firestore";
 import {db} from "../config/firebase";
 
 interface ChatPreviewProps {
@@ -12,7 +13,12 @@ interface ChatPreviewProps {
 
 const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewProps ) => {
 	const [ user, set_user ] = useState<DocumentData>();
-	const [ latest_msg, set_latest_msg ] = useState<string>( '' )
+	// const [ latest_msg, set_latest_msg ] = useState<string>( '' )
+
+	const ref = collection( db, 'chatrooms', chatroom_uid, 'messages' )
+	const q = query( ref, orderBy( 'timestamp', 'desc' ), limit( 1 ) );
+	const [ latest_msg ] = useCollectionData( q, { idField: 'id' } )
+
 	useEffect( () => {
 		// Search user document for chatter_uid
 		( async () => {
@@ -23,20 +29,6 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 						uid : user_snapshot.id,
 						...user_snapshot.data()
 					});
-			}
-			// Search for latest message to set as preview
-			if( user_snapshot.id ) {
-				const ref = collection( db, 'chatrooms', chatroom_uid, 'messages' )
-				const q = query( ref, orderBy( 'timestamp', 'desc' ) );
-				const messages_snapshot = await getDocs( q );
-
-				const find_helper = ( doc  : DocumentData ) => {
-					if( doc.data().user_uid === user_snapshot.id ) {
-						return doc.data()
-					}
-				}
-				const preview_msg = messages_snapshot.docs.find( find_helper )?.data()
-				set_latest_msg( preview_msg?.text )
 			}
 		} )();
 	}, [ chatter_uid, chatroom_uid ] );
@@ -50,7 +42,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 				<img src={ user.photo_url } alt='Profile'/>
 				<Box maxW='xs'>
 					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
-					<Text isTruncated>{ latest_msg }</Text>
+					<Text isTruncated>{ latest_msg ? latest_msg[0].text : null }</Text>
 				</Box>
 			</Flex>
 		</Button>
