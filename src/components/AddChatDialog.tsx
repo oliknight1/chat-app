@@ -52,6 +52,12 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref, set_chatroom
 		e.preventDefault();
 		set_error( null );
 		set_invite_loading( true );
+		if ( invite_email.length === 0 ) {
+			set_error( 'Please enter an email' );
+			set_invite_loading( false );
+			return;
+
+		}
 		if( invite_email === email ) {
 			set_error( 'Cannot invite yourself, sorry!' );
 			set_invite_loading( false );
