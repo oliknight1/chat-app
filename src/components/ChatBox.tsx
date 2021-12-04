@@ -1,5 +1,5 @@
 import {Fade, Flex, Input, InputGroup, InputRightElement, Spinner} from "@chakra-ui/react";
-import { collection, doc, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
+import { collection, doc, orderBy, query, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import {ChangeEvent,   useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
@@ -28,18 +28,23 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 
 	const message_form_handler = async ( e : ChangeEvent<HTMLFormElement> ) => {
 		e.preventDefault();
+		const timestamp = serverTimestamp()
 		if( new_message.length > 0 ) {
 			const message: Message = {
 				text: new_message.trim(),
-				timestamp: serverTimestamp() ,
+				timestamp: timestamp,
 				user_uid : uid,
 			}
 
 			// reference to chatroom collection -> current chatroom ->
 			// creates / finds messages subcollection -> creates new ID
-			const ref = doc( db, 'chatrooms', chatroom_uid! , 'messages', nanoid() )
-			await setDoc( ref, message )
+			const new_message_ref = doc( db, 'chatrooms', chatroom_uid , 'messages', nanoid() );
+			await setDoc( new_message_ref, message );
 
+			const chatroom_ref = doc( db, 'chatrooms', chatroom_uid );
+			await updateDoc( chatroom_ref, {
+				last_msg_at: timestamp
+			} )
 			set_new_message( '' );
 		}
 
