@@ -54,7 +54,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 			pl={ 5 }
 		>
 			<Flex align='center'>
-				<Image src={ user.photo_url } alt='Profile' onLoad={ () => { set_img_loaded( true ) } } mr={ 4 }/>
+				<Image src={ user.photo_url } alt='Profile' onLoad={ () => { set_img_loaded( true ) } } mr={ 4 } borderRadius='full'/>
 				<Box maxW='70%' >
 					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
 					{
