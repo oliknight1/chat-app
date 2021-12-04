@@ -21,15 +21,11 @@ const ChatPage = () => {
 	return (
 		<Flex height='100vh'>
 			<Sidebar dialog_hanlder={ onOpen } set_chatroom={ set_chatroom_uid } />
-			<ChatList set_chatroom={ set_chatroom_uid } visible={ chatroom_uid !== null ? true : false } />
+			<ChatList set_chatroom={ set_chatroom_uid } />
 			<Container background='gray.100' maxW='100%' h='100%' p={ 10 } position='relative' >
 				{
-					chatroom_uid === null &&
-						<ChatDashboard set_chatroom={ set_chatroom_uid } visible={ chatroom_uid === null }/>
-				}
-				{
 					chatroom_uid !== null &&
-		<ChatBox chatroom_uid={ chatroom_uid } />
+						<ChatBox chatroom_uid={ chatroom_uid } />
 				}
 			</Container>
 			<AddChatDialog
