@@ -60,7 +60,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 						messages.map( message => {
 							console.log( message )
 						return (
-							<ChatMessage timestamp={ message.timestamp.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.timestamp }/>
+							<ChatMessage timestamp={ message.timestamp?.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.timestamp }/>
 						);
 					} )
 				}
@@ -68,7 +68,18 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 			<form onSubmit={ message_form_handler }>
 				<Flex>
 					<InputGroup mt={ 10 }>
-						<Input type='text' _hover={{ backgroundColor: 'white' }} _focus={{ backgroundColor : 'white' }} variant='filled' backgroundColor='white' py={ 6 } value={ new_message } onChange={ handle_new_message } placeholder='Enter a message' mr={ 3 }/>
+						<Input
+							type='text'
+							_hover={{ backgroundColor: 'white' }}
+							_focus={{ backgroundColor : 'white' }}
+							variant='filled'
+							backgroundColor='white'
+							py={ 6 }
+							value={ new_message }
+							onChange={ handle_new_message }
+							placeholder='Enter a message'
+							mr={ 3 }
+						/>
 						<InputRightElement right='40px' top='10%' children={ <SendIcon width='20px' height='20px' /> } />
 					</InputGroup>
 				</Flex>

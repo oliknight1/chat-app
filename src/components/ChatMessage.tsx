@@ -33,7 +33,7 @@ const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessage
 								fontSize='sm'
 								whiteSpace='nowrap'
 							>
-							{ timestamp.toLocaleString() }
+							{ timestamp?.toLocaleString() }
 							</Text>
 						</Box>
 				</Flex>
