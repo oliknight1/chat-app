@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text, Image } from "@chakra-ui/react";
 import { collection, doc, DocumentData, getDoc, limit, orderBy, query } from "firebase/firestore";
 import {useEffect, useState} from "react";
 import {useCollectionData} from "react-firebase-hooks/firestore";
@@ -54,7 +54,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 			pl={ 5 }
 		>
 			<Flex align='center'>
-				<img src={ user.photo_url } alt='Profile' onLoad={ () => { set_img_loaded( true ) } }/>
+				<Image src={ user.photo_url } alt='Profile' onLoad={ () => { set_img_loaded( true ) } } mr={ 4 }/>
 				<Box maxW='70%' >
 					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
 					{
