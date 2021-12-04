@@ -2,7 +2,7 @@ import {collection, orderBy, query, where} from "firebase/firestore";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import {SlideFade, VStack} from "@chakra-ui/react";
+import {Box, SlideFade, VStack} from "@chakra-ui/react";
 import ChatPreview from "./ChatPreview";
 
 interface ChatListProps {
@@ -19,7 +19,14 @@ const ChatList = ( { set_chatroom } : ChatListProps ) => {
 
 	return (
 		<SlideFade in={ true }>
-			<VStack spacing={ 10 } background='white' py={ 5 }>
+			<VStack
+				spacing={ 10 }
+				background='white' py={ 5 }
+				h='100vh'
+				overflowY='auto'
+				overflowX='hidden'
+				position='relative'
+			>
 			{
 				chats?.map( chat => {
 					const chatter_uid = chat.members_uid.filter( ( member_uid : string ) => member_uid !== uid );

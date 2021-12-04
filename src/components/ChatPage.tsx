@@ -23,7 +23,7 @@ const ChatPage = () => {
 			<Sidebar dialog_hanlder={ onOpen } set_chatroom={ set_chatroom_uid } />
 			<ChatList set_chatroom={ set_chatroom_uid } />
 			<Container background='gray.100' maxW='100%' h='100%' p={ 10 } position='relative' >
-					<Fade in={ chatroom_uid === null }>
+				<Fade in={ chatroom_uid === null }>
 					<Box
 						w='md'
 						h='fit-content'
@@ -36,11 +36,11 @@ const ChatPage = () => {
 						left='32%'
 						boxShadow='lg'
 					>
-				
-						<Heading fontSize='2xl' fontWeight='600' mb={ 3 }>No open chat</Heading>
+
+					<Heading fontSize='2xl' fontWeight='600' mb={ 3 }>No open chat</Heading>
 					<Text>Please click a chat on the sidebar to view messages</Text>
-					</Box>
-				</Fade>
+				</Box>
+			</Fade>
 				
 				{
 					chatroom_uid !== null &&
