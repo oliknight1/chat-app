@@ -1,4 +1,5 @@
-import { Box, Text, Image, ScaleFade, Flex } from "@chakra-ui/react";
+import { Box, Text, Avatar, ScaleFade, Flex } from "@chakra-ui/react";
+import {DocumentData} from "firebase/firestore";
 import {useState} from "react";
 import {get_doc_by_id} from "../services/database_helpers";
 
@@ -10,16 +11,15 @@ interface ChatMessageProps {
 }
 
 const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessageProps ) => {
-	const [ photo_url, set_photo_url ] = useState<string>( '' );
-	const [ img_loaded, set_img_loaded ] = useState<boolean>( false )
 
-	get_doc_by_id( 'users', sender_uid ).then ( doc => doc.data() ).then( data => set_photo_url( data.photo_url ) );
+	const [ user, set_user ] = useState<DocumentData>();
+	get_doc_by_id( 'users', sender_uid ).then ( doc => set_user( doc.data() ));
 
 	return (
 		<Box alignSelf={ received ?  'flex-start' : 'flex-end'} px={ 5 }>
-			<ScaleFade in={ img_loaded }>
+			<ScaleFade in={ true }>
 				<Flex flexDir={ received ? 'row' : 'row-reverse' } alignItems='center'>
-					<Image src={ photo_url } onLoad={ () => set_img_loaded( true ) } borderRadius='full' w='4rem' h='4rem' mx={ 5 }/>
+					 <Avatar name={ user?.display_name } loading='lazy' w='3.5rem' h='3.5rem' mx={ 5 }/>
 						<Box pos='relative' backgroundColor={ received ? 'teal.700' : 'teal.dark' } my={ 5 } w='fit-content' py={ 3 } px={ 6 } borderRadius='xl' >
 							<Text color='white'>{ message }</Text>
 							<Text

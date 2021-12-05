@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text, Image } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text, Avatar } from "@chakra-ui/react";
 import { collection, doc, DocumentData, getDoc, limit, orderBy, query } from "firebase/firestore";
 import {useEffect, useState} from "react";
 import {useCollectionData} from "react-firebase-hooks/firestore";
@@ -15,7 +15,6 @@ interface ChatPreviewProps {
 
 const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewProps ) => {
 	const [ user, set_user ] = useState<DocumentData>();
-	const [ img_loaded, set_img_loaded ] = useState<boolean>( false );
 
 	const ref = collection( db, 'chatrooms', chatroom_uid, 'messages' )
 	const q = query( ref, orderBy( 'timestamp', 'desc' ), limit( 1 ) );
@@ -46,11 +45,11 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 			textAlign='left'
 			_hover={{ boxShadow: 'lg' }}
 			borderRadius='none'
-			opacity={ img_loaded ? 1 : 0 }
 			pl={ 5 }
+			py={ 3 }
 		>
 			<Flex align='center'>
-				<Image src={ user.photo_url } alt='Profile' onLoad={ () => { set_img_loaded( true ) } } mr={ 4 } borderRadius='full' w='4rem' h='4rem'/>
+				<Avatar name={ user.display_name } loading='lazy' mr={ 4 } w='3rem' h='3rem'/>
 				<Box maxW='70%' >
 					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
 					{

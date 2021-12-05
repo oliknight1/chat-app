@@ -65,7 +65,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 						messages.map( message => {
 						return (
 							<>
-							<ChatMessage timestamp={ message.timestamp?.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.timestamp }/>
+							<ChatMessage timestamp={ message.timestamp?.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.id }/>
 							<AlwaysScrollToBottom />
 						</>
 						);
