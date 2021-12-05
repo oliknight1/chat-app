@@ -1,4 +1,4 @@
-import {Fade, Flex, Input, InputGroup, InputRightElement, Spinner, VStack} from "@chakra-ui/react";
+import {Fade, Flex, IconButton, Input, InputGroup, InputRightElement, Spinner, VStack,} from "@chakra-ui/react";
 import { collection, doc, orderBy, query, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import {ChangeEvent,   useEffect,   useRef,   useState} from "react";
 import {db} from "../config/firebase";
@@ -87,7 +87,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 							placeholder='Enter a message'
 							mr={ 3 }
 						/>
-						<InputRightElement right='40px' top='10%' children={ <SendIcon width='20px' height='20px' /> } />
+						<InputRightElement right='40px' top='10%' children={ <IconButton type='submit' variant='unstyled' _hover={{ transform: 'scale( 1.1 )' }} icon={<SendIcon width='30px' height='30px' color='teal.dark'/> } aria-label='Send message'/>} />
 					</InputGroup>
 				</Flex>
 			</form>

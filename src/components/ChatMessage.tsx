@@ -20,8 +20,8 @@ const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessage
 			<ScaleFade in={ img_loaded }>
 				<Flex flexDir={ received ? 'row' : 'row-reverse' } alignItems='center'>
 					<Image src={ photo_url } onLoad={ () => set_img_loaded( true ) } borderRadius='full' w='4rem' h='4rem' mx={ 5 }/>
-						<Box pos='relative' backgroundColor={ received ? 'gray.400' : 'teal.dark' } my={ 5 } w='fit-content' py={ 3 } px={ 6 } borderRadius='xl' >
-							<Text>{ message }</Text>
+						<Box pos='relative' backgroundColor={ received ? 'teal.700' : 'teal.dark' } my={ 5 } w='fit-content' py={ 3 } px={ 6 } borderRadius='xl' >
+							<Text color='white'>{ message }</Text>
 							<Text
 								pos='absolute'
 								bottom='-60%'
