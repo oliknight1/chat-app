@@ -1,7 +1,7 @@
 import ChatBox from "./ChatBox";
 import Sidebar from './Sidebar';
 import ChatList from './ChatList';
-import {Box, Container, Flex, Heading, useDisclosure, Text, Fade} from "@chakra-ui/react";
+import {Box, Flex, Heading, useDisclosure, Text, Fade} from "@chakra-ui/react";
 import {useState} from "react";
 import AddChatDialog from "./AddChatDialog";
 import ChatDashboard from "./ChatDashboard";
@@ -22,7 +22,7 @@ const ChatPage = () => {
 		<Flex height='100vh' background='grey.100'>
 			<Sidebar dialog_hanlder={ onOpen } set_chatroom={ set_chatroom_uid } />
 			<ChatList set_chatroom={ set_chatroom_uid } />
-			<Container background='gray.100' maxW='100%' h='100%' p={ 10 } position='relative' >
+			<Box background='gray.100' w='100%' h='100%' position='relative' >
 				<Fade in={ chatroom_uid === null }>
 					<Box
 						w='md'
@@ -41,12 +41,11 @@ const ChatPage = () => {
 					<Text>Please click a chat on the sidebar to view messages</Text>
 				</Box>
 			</Fade>
-				
 				{
 					chatroom_uid !== null &&
 						<ChatBox chatroom_uid={ chatroom_uid } />
 				}
-			</Container>
+			</Box>
 			<AddChatDialog
 				is_open={ isOpen }
 				on_close={ dialog_close_handler }

@@ -16,7 +16,7 @@ const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessage
 	get_doc_by_id( 'users', sender_uid ).then ( doc => doc.data() ).then( data => set_photo_url( data.photo_url ) );
 
 	return (
-		<Box alignSelf={ received ?  'flex-start' : 'flex-end'}>
+		<Box alignSelf={ received ?  'flex-start' : 'flex-end'} px={ 5 }>
 			<ScaleFade in={ img_loaded }>
 				<Flex flexDir={ received ? 'row' : 'row-reverse' } alignItems='center'>
 					<Image src={ photo_url } onLoad={ () => set_img_loaded( true ) } borderRadius='full' w='4rem' h='4rem' mx={ 5 }/>

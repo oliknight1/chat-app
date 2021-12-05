@@ -1,6 +1,6 @@
-import {Fade, Flex, Input, InputGroup, InputRightElement, Spinner} from "@chakra-ui/react";
+import {Fade, Flex, Input, InputGroup, InputRightElement, Spinner, VStack} from "@chakra-ui/react";
 import { collection, doc, orderBy, query, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
-import {ChangeEvent,   useState} from "react";
+import {ChangeEvent,   useEffect,   useRef,   useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import {Message} from "../utils/typings";
@@ -56,21 +56,24 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 	}
 
 	return (
-		<Flex flexDir='column' justifyContent='space-between' h='100%'>
-			<Flex flexDir='column'>
+		<Flex flexDir='column' justifyContent='space-between' overflowY='auto'>
+			<VStack spacing={ 5 } h='90vh' overflowY='auto'>
 				<Fade in={ loading }>
 					<Spinner position='absolute' top='50%' left='46%' />
 				</Fade>
 				{ messages &&
 						messages.map( message => {
 						return (
+							<>
 							<ChatMessage timestamp={ message.timestamp?.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.timestamp }/>
+							<AlwaysScrollToBottom />
+						</>
 						);
 					} )
 				}
-			</Flex>
+			</VStack>
 			<form onSubmit={ message_form_handler }>
-				<Flex>
+				<Flex px={ 10 }>
 					<InputGroup mt={ 10 }>
 						<Input
 							type='text'
@@ -91,4 +94,13 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 		</Flex>
 	);
 }
+const AlwaysScrollToBottom = () => {
+	const ref = useRef<HTMLDivElement>( null );
+	useEffect( () => {
+		if( ref.current ) {
+			ref.current.scrollIntoView();
+		}
+	} );
+  return <div ref={ref} />;
+};
 export default ChatBox;
