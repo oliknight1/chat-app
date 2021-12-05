@@ -8,6 +8,8 @@ import ChatMessage from "./ChatMessage";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { SendIcon } from "../utils/icons";
 import { nanoid } from 'nanoid'
+import React from "react";
+
 
 
 interface ChatBoxProps {
@@ -64,10 +66,10 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 				{ messages &&
 						messages.map( message => {
 						return (
-							<>
-							<ChatMessage timestamp={ message.timestamp?.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.id }/>
-							<AlwaysScrollToBottom />
-						</>
+							<React.Fragment key={ message.id }>
+								<ChatMessage timestamp={ message.timestamp?.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.id }/>
+								<AlwaysScrollToBottom />
+							</React.Fragment>
 						);
 					} )
 				}
