@@ -21,7 +21,7 @@ const Sidebar = ( { dialog_hanlder, set_chatroom } : SidebarProps ) => {
 		}
 	}
 	return (
-		<Flex h='100%' backgroundColor='teal.dark' p={ 8 } flexDir='column' justifyContent='space-between'>
+		<Flex h='100%' backgroundColor='teal.dark' p={ 8 } flexDir='column' justifyContent='space-between' w='6vw'>
 			<VStack spacing={ 8 }>
 				<Button variant='unstyled' onClick={ () => set_chatroom( null ) }><HomeIcon boxSize={ 10 } color='white' /></Button>
 				<Button variant='unstyled' onClick={ dialog_hanlder }><AddIcon boxSize={ 10 } color='white' /></Button>

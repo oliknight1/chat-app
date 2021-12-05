@@ -19,9 +19,12 @@ const ChatPage = () => {
 		return onClose();
 	}
 	return (
-		<Flex height='100vh' background='grey.100'>
+		<Flex height='100vh' background='grey.100' width='100%'>
+			<Flex background='gray.100'>
+
 			<Sidebar dialog_hanlder={ onOpen } set_chatroom={ set_chatroom_uid } />
 			<ChatList set_chatroom={ set_chatroom_uid } />
+			</Flex>
 			<Box background='gray.100' w='100%' h='100%' position='relative' >
 				<Fade in={ chatroom_uid === null }>
 					<Box
