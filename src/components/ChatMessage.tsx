@@ -1,6 +1,6 @@
 import { Box, Text, Avatar, ScaleFade, Flex } from "@chakra-ui/react";
 import {DocumentData} from "firebase/firestore";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {get_doc_by_id} from "../services/database_helpers";
 
 interface ChatMessageProps {
@@ -13,7 +13,9 @@ interface ChatMessageProps {
 const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessageProps ) => {
 
 	const [ user, set_user ] = useState<DocumentData>();
-	get_doc_by_id( 'users', sender_uid ).then ( doc => set_user( doc.data() ));
+	useEffect( () => {
+		get_doc_by_id( 'users', sender_uid ).then ( doc => set_user( doc.data() ));
+	}, [] )
 
 	return (
 		<Box alignSelf={ received ?  'flex-start' : 'flex-end'} px={ 5 }>
