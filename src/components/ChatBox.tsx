@@ -57,6 +57,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 		set_new_message( e.target.value );
 	}
 
+
 	return (
 		<Flex flexDir='column' justifyContent='space-between' overflowY='auto'>
 			<VStack spacing={ 5 } h='90vh' overflowY='auto'>
@@ -74,25 +75,27 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 					} )
 				}
 			</VStack>
-			<form onSubmit={ message_form_handler }>
-				<Flex px={ 10 }>
-					<InputGroup mt={ 10 }>
-						<Input
-							type='text'
-							_hover={{ backgroundColor: 'white' }}
-							_focus={{ backgroundColor : 'white' }}
-							variant='filled'
-							backgroundColor='white'
-							py={ 6 }
-							value={ new_message }
-							onChange={ handle_new_message }
-							placeholder='Enter a message'
-							mr={ 3 }
-						/>
-						<InputRightElement right='40px' top='10%' children={ <IconButton type='submit' variant='unstyled' _hover={{ transform: 'scale( 1.1 )' }} icon={<SendIcon width='30px' height='30px' color='teal.dark'/> } aria-label='Send message'/>} />
-					</InputGroup>
-				</Flex>
-			</form>
+			<Fade in={ !loading }>
+				<form onSubmit={ message_form_handler }>
+					<Flex px={ 10 }>
+						<InputGroup mt={ 10 }>
+							<Input
+								type='text'
+								_hover={{ backgroundColor: 'white' }}
+								_focus={{ backgroundColor : 'white' }}
+								variant='filled'
+								backgroundColor='white'
+								py={ 6 }
+								value={ new_message }
+								onChange={ handle_new_message }
+								placeholder='Enter a message'
+								mr={ 3 }
+							/>
+							<InputRightElement right='40px' top='10%' children={ <IconButton type='submit' variant='unstyled' _hover={{ transform: 'scale( 1.1 )' }} icon={<SendIcon width='30px' height='30px' color='teal.dark'/> } aria-label='Send message'/>} />
+						</InputGroup>
+					</Flex>
+				</form>
+			</Fade>
 		</Flex>
 	);
 }
