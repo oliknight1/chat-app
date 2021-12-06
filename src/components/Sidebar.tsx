@@ -14,14 +14,13 @@ const Sidebar = ( { dialog_hanlder, set_chatroom } : SidebarProps ) => {
 	const handle_logout = async () => {
 		try {
 			await logout();
-			history.push("/login")
-			
+			history.push( 'login' )
 		} catch (error) {
 			console.log( error )
 		}
 	}
 	return (
-		<Flex h='100%' backgroundColor='teal.dark' p={ 8 } flexDir='column' justifyContent='space-between' w='6vw'>
+		<Flex h='100%' backgroundColor='teal.dark' p={ 8 } flexDir='column' justifyContent='space-between' w='6vw' zIndex={ 2 }>
 			<VStack spacing={ 8 }>
 				<Button variant='unstyled' onClick={ () => set_chatroom( null ) }><HomeIcon boxSize={ 10 } color='white' /></Button>
 				<Button variant='unstyled' onClick={ dialog_hanlder }><AddIcon boxSize={ 10 } color='white' /></Button>

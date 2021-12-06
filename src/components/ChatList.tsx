@@ -20,7 +20,7 @@ const ChatList = ( { set_chatroom } : ChatListProps ) => {
 		return null;
 	}
 	return (
-		<SlideFade in={ true } offsetX='-200px'>
+		<SlideFade in={ true } offsetX='-200px' transition={{ enter : { duration : 0.7 } }}>
 			<Container w='md' background='white' pt={ 5 }>
 			<VStack
 				spacing={ 10 }
