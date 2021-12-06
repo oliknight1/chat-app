@@ -45,12 +45,13 @@ const Register = () => {
 					display_name : username.trim(),
 				} );
 			} );
+		set_loading( false );
 			history.push( '/' )
 		} catch( e ) {
 			const code = ( e as firebase.FirebaseError ).code;
 			set_error( handle_auth_code( code ) )
-		}
 		set_loading( false );
+		}
 	}
 	return (
 		<>
