@@ -27,6 +27,15 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 	const { current_user } = useAuth();
 	const { uid } = current_user;
 
+	const last_msg_ref = useRef<HTMLDivElement>( null )
+	const scroll_to_bottom = () => {
+		if( last_msg_ref.current ) {
+			last_msg_ref.current.scrollIntoView( { behavior: 'smooth', block: 'nearest', inline: 'start' } );
+		}
+	}
+
+	useEffect( scroll_to_bottom, [ messages ] )
+
 
 	const message_form_handler = async ( e : ChangeEvent<HTMLFormElement> ) => {
 		e.preventDefault();
@@ -59,21 +68,21 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 
 
 	return (
-		<Flex flexDir='column' justifyContent='space-between' overflowY='auto'>
+		<Flex flexDir='column' justifyContent='space-between' >
 			<VStack spacing={ 5 } h='90vh' overflowY='auto'>
 				<Fade in={ loading }>
 					<Spinner position='absolute' top='50%' left='46%' />
 				</Fade>
 				{ messages &&
-						messages.map( message => {
+						messages.map( ( message )=> {
 						return (
 							<React.Fragment key={ message.id }>
 								<ChatMessage timestamp={ message.timestamp?.toDate() } message={ message.text } sender_uid={ message.user_uid } received={ message.user_uid !== uid } key={ message.id }/>
-								<AlwaysScrollToBottom />
 							</React.Fragment>
 						);
-					} )
+						} )
 				}
+				<div ref={ last_msg_ref } />
 			</VStack>
 			<Fade in={ !loading }>
 				<form onSubmit={ message_form_handler }>
@@ -99,13 +108,4 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 		</Flex>
 	);
 }
-const AlwaysScrollToBottom = () => {
-	const ref = useRef<HTMLDivElement>( null );
-	useEffect( () => {
-		if( ref.current ) {
-			ref.current.scrollIntoView();
-		}
-	} );
-  return <div ref={ref} />;
-};
 export default ChatBox;

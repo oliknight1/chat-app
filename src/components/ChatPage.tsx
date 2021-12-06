@@ -40,10 +40,10 @@ const ChatPage = () => {
 						boxShadow='lg'
 					>
 
-					<Heading fontSize='2xl' fontWeight='600' mb={ 3 }>No open chat</Heading>
-					<Text>Please click a chat on the sidebar to view messages</Text>
-				</Box>
-			</Fade>
+						<Heading fontSize='2xl' fontWeight='600' mb={ 3 }>No open chat</Heading>
+						<Text>Please click a chat on the sidebar to view messages</Text>
+					</Box>
+				</Fade>
 				{
 					chatroom_uid !== null &&
 						<ChatBox chatroom_uid={ chatroom_uid } />
