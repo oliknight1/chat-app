@@ -36,7 +36,7 @@ const ChatPage = () => {
 						rounded='2xl'
 						position='absolute'
 						top='50%'
-						left='32%'
+						left='30%'
 						boxShadow='lg'
 					>
 
