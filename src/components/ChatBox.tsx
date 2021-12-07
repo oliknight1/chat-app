@@ -69,7 +69,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 
 	return (
 		<Flex flexDir='column' justifyContent='space-between' >
-			<VStack spacing={ 5 } h='90vh' overflowY='auto'>
+			<VStack spacing={ 5 } h={ ['85vh','90vh' ] } overflowY='auto'>
 				<Fade in={ loading }>
 					<Spinner position='absolute' top='50%' left='46%' />
 				</Fade>
@@ -86,7 +86,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 			</VStack>
 			<Fade in={ !loading }>
 				<form onSubmit={ message_form_handler }>
-					<Flex px={ 10 }>
+					<Flex px={ [5,10] }>
 						<InputGroup mt={ 10 }>
 							<Input
 								type='text'
@@ -100,7 +100,7 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 								placeholder='Enter a message'
 								mr={ 3 }
 							/>
-							<InputRightElement right='40px' top='10%' children={ <IconButton type='submit' variant='unstyled' _hover={{ transform: 'scale( 1.1 )' }} icon={<SendIcon width='30px' height='30px' color='teal.dark'/> } aria-label='Send message'/>} />
+							<InputRightElement right={ ['20px', '40px'] } top='10%' children={ <IconButton type='submit' variant='unstyled' _hover={{ transform: 'scale( 1.1 )' }} icon={<SendIcon width='30px' height='30px' color='teal.dark'/> } aria-label='Send message'/>} />
 						</InputGroup>
 					</Flex>
 				</form>
