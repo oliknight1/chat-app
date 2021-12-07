@@ -14,8 +14,9 @@ const ChatList = ( { set_chatroom } : ChatListProps ) => {
 	const { uid } = current_user;
 
 	const chatroom_ref = collection( db, 'chatrooms' );
-	const q = query( chatroom_ref, where( 'members_uid', 'array-contains', uid ) , orderBy( 'last_msg_at' ));
+	const q = query( chatroom_ref, where( 'members_uid', 'array-contains', uid ) , orderBy( 'last_msg_at', 'desc' ));
 	const [ chats ] = useCollectionData (q, { idField: 'id' } );
+	console.log( chats )
 	if ( chats?.length === 0 ) {
 		return null;
 	}
