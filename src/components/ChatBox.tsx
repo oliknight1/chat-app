@@ -10,14 +10,16 @@ import { SendIcon } from "../utils/icons";
 import { nanoid } from 'nanoid'
 import React from "react";
 import {get_doc_by_id} from "../services/database_helpers";
+import {ChevronLeftIcon} from "@chakra-ui/icons";
 
 
 
 interface ChatBoxProps {
-	chatroom_uid : string
+	chatroom_uid : string,
+	set_chat_list_open: React.Dispatch<React.SetStateAction<any>>
 }
 
-const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
+const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 	// Input state
 	const [ new_message, set_new_message ] = useState<string>( '' );
 
@@ -98,8 +100,9 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 			{
 				( current_breakpoint === 'base' || current_breakpoint === 'sm' || current_breakpoint === 'md' ) &&
 				<Flex w='100%' background='white' p={ 4 } alignItems='center'>
+					<IconButton onClick={ () => set_chat_list_open( true ) } variant='unstyled' mr={ 4 } icon={ <ChevronLeftIcon boxSize='2.3rem' /> } aria-label='Back' />
 					<Avatar name={ chatter?.display_name }  mr={ 3 }/>
-					<Heading fontWeight='500'>{ chatter?.display_name }</Heading>
+					<Heading fontWeight='500' size='lg'>{ chatter?.display_name }</Heading>
 				</Flex>
 			}
 			<Flex flexDir='column' justifyContent='space-between' >
