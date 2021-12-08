@@ -9,11 +9,13 @@ import { get_doc_by_id } from "../services/database_helpers";
 interface ChatPreviewProps {
 	chatter_uid : string,
 	chatroom_uid : string,
-	set_chatroom : React.Dispatch<React.SetStateAction<any>>
+	set_chatroom : React.Dispatch<React.SetStateAction<any>>,
+	set_open: React.Dispatch<React.SetStateAction<any>>
+
 
 }
 
-const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewProps ) => {
+const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom, set_open } : ChatPreviewProps ) => {
 	const [ user, set_user ] = useState<DocumentData>();
 
 	const ref = collection( db, 'chatrooms', chatroom_uid, 'messages' )
@@ -35,9 +37,14 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom } : ChatPreviewP
 		return null;
 	}
 
+	const handle_click = () => {
+		set_chatroom( chatroom_uid );
+		set_open( false );
+	}
+
 	return (
 		<Button
-			onClick={ () => set_chatroom( chatroom_uid ) }
+			onClick={ handle_click }
 			w='md'
 			h='fit-content'
 			variant='unstyled'

@@ -7,17 +7,18 @@ import ChatPreview from "./ChatPreview";
 
 interface ChatListProps {
 	set_chatroom : React.Dispatch<React.SetStateAction<any>>,
+	set_open: React.Dispatch<React.SetStateAction<any>>,
+	open : boolean
 }
 
-const ChatList = ( { set_chatroom } : ChatListProps ) => {
+const ChatList = ( { set_chatroom, open, set_open } : ChatListProps ) => {
 	const { current_user } = useAuth();
 	const { uid } = current_user;
 
 	const chatroom_ref = collection( db, 'chatrooms' );
 	const q = query( chatroom_ref, where( 'members_uid', 'array-contains', uid ) , orderBy( 'last_msg_at', 'desc' ));
 	const [ chats ] = useCollectionData (q, { idField: 'id' } );
-	console.log( chats )
-	if ( chats?.length === 0 ) {
+	if ( chats?.length === 0 || !open ) {
 		return null;
 	}
 	return (
@@ -35,7 +36,7 @@ const ChatList = ( { set_chatroom } : ChatListProps ) => {
 					const chatter_uid = chat.members_uid.filter( ( member_uid : string ) => member_uid !== uid );
 					return (
 						<Fade in={ true } style={{ transition: 'opacity ease-in 0.2s' }} key={ chatter_uid[0] }>
-							<ChatPreview  chatroom_uid={ chat.id } chatter_uid={ chatter_uid[0] } set_chatroom={ set_chatroom } />
+							<ChatPreview  chatroom_uid={ chat.id } chatter_uid={ chatter_uid[0] } set_chatroom={ set_chatroom } set_open={ set_open } />
 						</Fade>
 					);
 				})

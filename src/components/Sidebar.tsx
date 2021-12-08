@@ -5,10 +5,11 @@ import { HomeIcon, AddIcon, AccountIcon, LogOutIcon } from "../utils/icons"
 
 interface SidebarProps {
 	dialog_hanlder : () => void,
-	set_chatroom : React.Dispatch<React.SetStateAction<any>>
+	set_chatroom : React.Dispatch<React.SetStateAction<any>>,
+	visible: boolean
 }
 
-const Sidebar = ( { dialog_hanlder, set_chatroom } : SidebarProps ) => {
+const Sidebar = ( { dialog_hanlder, set_chatroom, visible } : SidebarProps ) => {
 	const { logout } = useAuth();
 	const history = useHistory();
 	const handle_logout = async () => {
@@ -18,6 +19,9 @@ const Sidebar = ( { dialog_hanlder, set_chatroom } : SidebarProps ) => {
 		} catch (error) {
 			console.log( error )
 		}
+	}
+	if( !visible ) {
+		return null;
 	}
 	return (
 		<Flex h='100%' backgroundColor='teal.dark' p={ 8 } flexDir='column' justifyContent='space-between' w='6vw' zIndex={ 2 }>
