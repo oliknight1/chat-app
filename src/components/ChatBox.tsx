@@ -1,6 +1,6 @@
-import {Avatar, Fade, Flex, Heading, IconButton, Input, InputGroup, InputRightElement, Spinner, useBreakpoint, VStack,} from "@chakra-ui/react";
+import {Avatar, Box, Fade, Flex, Heading, IconButton, Input, InputGroup, InputRightElement, Spinner, useBreakpoint, VStack } from "@chakra-ui/react";
 import { collection, doc, DocumentData, orderBy, query, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
-import {ChangeEvent,   useEffect,   useRef,   useState} from "react";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import {Message} from "../utils/typings";
@@ -116,7 +116,8 @@ const ChatBox = ( { chatroom_uid } : ChatBoxProps ) => {
 							);
 							} )
 					}
-					<div ref={ last_msg_ref } />
+					<Box ref={ last_msg_ref } w={[ '100vw', '100%' ]} />
+
 				</VStack>
 				<Fade in={ !loading }>
 					<form onSubmit={ message_form_handler }>
