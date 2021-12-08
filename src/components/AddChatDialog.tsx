@@ -1,4 +1,4 @@
-import { Button, FormControl, FormErrorMessage, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { Button, FormControl, FormErrorMessage, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useBreakpoint } from "@chakra-ui/react";
 import {fetchSignInMethodsForEmail} from "firebase/auth";
 import {addDoc, collection, getDocs, limit, query, serverTimestamp, where} from "firebase/firestore";
 import {FormEvent, RefObject, useRef, useState} from "react";
@@ -56,6 +56,8 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref, set_chatroom
 	const { current_user } = useAuth();
 	const { email, uid } = current_user;
 
+	const current_breakpoint= useBreakpoint();
+
 	const handle_chat_invite = async ( e : FormEvent<HTMLFormElement> ) => {
 		e.preventDefault();
 		set_error( null );
@@ -108,7 +110,9 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref, set_chatroom
 				// Close dialog, open chat
 				on_close();
 				set_chatroom_uid( new_doc_ref.id );
-				set_chat_list_open( false )
+				if( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) {
+					set_chat_list_open( false )
+				}
 
 			} else {
 				set_error( 'User not found' )
