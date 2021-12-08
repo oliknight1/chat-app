@@ -23,7 +23,7 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 	// Input state
 	const [ new_message, set_new_message ] = useState<string>( '' );
 
-	const [ users, set_users ] = useState<DocumentData[]>([]);
+	const [ chatter, set_chatter ] = useState<DocumentData>();
 
 	const messages_ref = collection( db, 'chatrooms', chatroom_uid, 'messages' );
 	const messages_q = query( messages_ref, orderBy( 'timestamp' ) );
@@ -33,7 +33,8 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 	const { uid } = current_user
 
 	// User that is not signed in user
-	const chatter = users.find( user => user.id !== uid )
+	// const chatter = users.find( user => user.id !== uid )
+
 
 
 	const last_msg_ref = useRef<HTMLDivElement>( null )
@@ -49,18 +50,10 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 		get_doc_by_id( 'chatrooms', chatroom_uid )
 			.then( doc => doc.data().members_uid )
 			.then( members_uid => {
-				members_uid.forEach( ( user_uid : string ) => {
-					get_doc_by_id( 'users', user_uid )
-						.then( doc => {
-							const data = {
-								id: doc.id,
-								...doc.data()
-							}
-							set_users(oldState => [...oldState, data])
-						} )
-				} )
+				const chatter_uid = members_uid.find( ( user_uid : string) => user_uid !== uid );
+				get_doc_by_id( 'users', chatter_uid ).then( doc => set_chatter( { id: doc.id, ...doc.data() } ) )
 			} )
-	}, [] )
+	}, [ chatroom_uid ] )
 
 	useEffect( scroll_to_bottom, [ messages ] )
 
@@ -96,14 +89,22 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 
 	return (
 		<>
-			{
-				( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) &&
-					<Flex w='100%' background='white' p={ 4 } alignItems='center'>
-						<IconButton onClick={ () => set_chat_list_open( true ) } variant='unstyled' mr={ 4 } icon={ <ChevronLeftIcon boxSize='2.3rem' /> } aria-label='Back' />
-						<Avatar name={ chatter?.display_name }  mr={ 3 }/>
-						<Heading fontWeight='500' size='lg'>{ chatter?.display_name }</Heading>
-					</Flex>
-			}
+			
+			<Flex w='100%' background='white' p={ 4 } alignItems='center' h='5vh'>
+				{
+					chatter &&
+						<>
+							{
+								( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) &&
+								<IconButton onClick={ () => set_chat_list_open( true ) } variant='unstyled' mr={ 4 } icon={ <ChevronLeftIcon boxSize='2.3rem' /> } aria-label='Back' />
+							}
+
+							<Avatar name={ chatter?.display_name }  ml={ [ 0, 10 ] } mr={ [ 3,6 ] }/>
+							<Heading fontWeight='500' size='lg'>{ chatter?.display_name }</Heading>
+						</>
+				}
+			</Flex>
+			
 			<Flex flexDir='column' justifyContent='space-between' >
 				<VStack spacing={ 5 } h={ ['75vh','90vh' ] } overflowY='auto'>
 					<Fade in={ loading }>
