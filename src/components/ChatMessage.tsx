@@ -18,7 +18,7 @@ const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessage
 	}, [] )
 
 	return (
-		<Box alignSelf={ received ?  'flex-start' : 'flex-end'} px={ [2,5] }>
+		<Box alignSelf={ received ?  'flex-start' : 'flex-end'} px={ [2,5] } maxW='60%'>
 			<ScaleFade in={ true } transition={{ enter : { duration: 0.4 } }}>
 				<Flex flexDir={ received ? 'row' : 'row-reverse' } alignItems='center'>
 					 <Avatar name={ user?.display_name } loading='lazy' w={ [ '2.8rem', '3.5rem' ] } h={ [ '2.8rem', '3.5rem' ] } mx={ [ 2, 5 ] }/>
