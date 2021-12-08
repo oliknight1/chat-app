@@ -133,6 +133,7 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 									variant='filled'
 									backgroundColor='white'
 									py={ 6 }
+									pr={ 20 }
 									value={ new_message }
 									onChange={ handle_new_message }
 									placeholder='Enter a message'
