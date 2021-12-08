@@ -13,8 +13,9 @@ interface AddChatDialogProps {
 	error_message : string | null,
 	set_error_message : React.Dispatch<React.SetStateAction<any>>,
 	set_chatroom_uid : React.Dispatch<React.SetStateAction<any>>,
+	set_chat_list_open : React.Dispatch<React.SetStateAction<any>>
 }
-const AddChatDialog = ( { is_open, on_close, title, error_message, set_error_message, set_chatroom_uid } : AddChatDialogProps ) => {
+const AddChatDialog = ( { is_open, on_close, title, error_message, set_error_message, set_chatroom_uid, set_chat_list_open } : AddChatDialogProps ) => {
 	const initial_ref = useRef( null );
 	return (
 		<>
@@ -24,24 +25,31 @@ const AddChatDialog = ( { is_open, on_close, title, error_message, set_error_mes
 					<ModalHeader>{ title }</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={ 10 }>
-						<ChatInviteForm error={ error_message } set_error={ set_error_message } on_close={ on_close } initial_ref={ initial_ref } set_chatroom_uid={ set_chatroom_uid } /> 
+						<ChatInviteForm
+							error={ error_message }
+							set_error={ set_error_message }
+							on_close={ on_close }
+							initial_ref={ initial_ref }
+							set_chatroom_uid={ set_chatroom_uid }
+							set_chat_list_open={ set_chat_list_open }
+						/> 
 					</ModalBody>
 				</ModalContent>
 			</Modal>
 		</>
 	);
 }
+
 interface ChatInviteFormProps {
 	error : string | null,
 	set_error : React.Dispatch<React.SetStateAction<any>>,
 	on_close : () => void,
 	initial_ref :RefObject<HTMLInputElement>,
-	set_chatroom_uid: React.Dispatch<React.SetStateAction<any>>
+	set_chatroom_uid: React.Dispatch<React.SetStateAction<any>>,
+	set_chat_list_open: React.Dispatch<React.SetStateAction<any>>
 }
 
-
-
-const ChatInviteForm = ( { error, set_error, on_close, initial_ref, set_chatroom_uid } : ChatInviteFormProps ) => {
+const ChatInviteForm = ( { error, set_error, on_close, initial_ref, set_chatroom_uid, set_chat_list_open } : ChatInviteFormProps ) => {
 
 	const [ invite_email, set_invite_email ] = useState<string>( '' );
 	const [ invite_loading, set_invite_loading ] = useState<boolean>( false );
@@ -84,9 +92,6 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref, set_chatroom
 				const chatroom_q = query( chatrooms_ref, where( 'members_uid', 'in', [[uid, invited_user_id]]) )
 				const chatroom_snapshot = await getDocs( chatroom_q );
 
-				console.log( chatroom_snapshot.docs )
-
-				console.log( chatroom_snapshot.docs.length )
 				if( chatroom_snapshot.docs.length > 0 ) {
 					set_error( 'Chat with user already exists' );
 					set_invite_loading( false );
@@ -102,7 +107,8 @@ const ChatInviteForm = ( { error, set_error, on_close, initial_ref, set_chatroom
 
 				// Close dialog, open chat
 				on_close();
-				set_chatroom_uid( new_doc_ref.id )
+				set_chatroom_uid( new_doc_ref.id );
+				set_chat_list_open( false )
 
 			} else {
 				set_error( 'User not found' )
