@@ -1,4 +1,4 @@
-import {Avatar, Box, Fade, Flex, Heading, IconButton, Input, InputGroup, InputRightElement, Spinner, useBreakpoint, VStack } from "@chakra-ui/react";
+import {Avatar, Box, Fade, Flex, Heading, IconButton, Input, InputGroup, InputRightElement, SlideFade, Spinner, useBreakpoint, VStack } from "@chakra-ui/react";
 import { collection, doc, DocumentData, orderBy, query, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
 import {db} from "../config/firebase";
@@ -86,24 +86,26 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 		e.preventDefault();
 		set_new_message( e.target.value );
 	}
+	console.log( chatter )
 
 	return (
 		<>
-			
-			<Flex w='100%' background='white' p={ 4 } alignItems='center' h='5vh'>
-				{
-					chatter &&
-						<>
-							{
-								( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) &&
-								<IconButton onClick={ () => set_chat_list_open( true ) } variant='unstyled' mr={ 4 } icon={ <ChevronLeftIcon boxSize='2.3rem' /> } aria-label='Back' />
-							}
+			<SlideFade offsetY={ -100 } in={ chatter !== undefined }>
+				<Flex w='100%' background='white' p={ 4 } alignItems='center' h={ ['10vh', '5vh'] }>
+					{
+						chatter &&
+							<>
+								{
+									( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) &&
+									<IconButton onClick={ () => set_chat_list_open( true ) } variant='unstyled' mr={ 4 } icon={ <ChevronLeftIcon boxSize='2.3rem' /> } aria-label='Back' />
+								}
 
-							<Avatar name={ chatter?.display_name }  ml={ [ 0, 10 ] } mr={ [ 3,6 ] }/>
-							<Heading fontWeight='500' size='lg'>{ chatter?.display_name }</Heading>
-						</>
-				}
-			</Flex>
+								<Avatar name={ chatter?.display_name }  ml={ [ 0, 10 ] } mr={ [ 3,6 ] }/>
+								<Heading fontWeight='500' size='lg'>{ chatter?.display_name }</Heading>
+							</>
+					}
+				</Flex>
+			</SlideFade>
 			
 			<Flex flexDir='column' justifyContent='space-between' >
 				<VStack spacing={ 5 } h={ ['75vh','90vh' ] } overflowY='auto'>
