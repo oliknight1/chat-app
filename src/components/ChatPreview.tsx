@@ -41,7 +41,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom, set_open } : Ch
 
 	const handle_click = () => {
 		set_chatroom( chatroom_uid );
-		if( current_breakpoint === 'base' || current_breakpoint === 'sm' || current_breakpoint ==='md' ) {
+		if( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) {
 			set_open( false );
 		}
 	}

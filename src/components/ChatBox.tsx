@@ -94,16 +94,15 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 		set_new_message( e.target.value );
 	}
 
-
 	return (
 		<>
 			{
-				( current_breakpoint === 'base' || current_breakpoint === 'sm' || current_breakpoint === 'md' ) &&
-				<Flex w='100%' background='white' p={ 4 } alignItems='center'>
-					<IconButton onClick={ () => set_chat_list_open( true ) } variant='unstyled' mr={ 4 } icon={ <ChevronLeftIcon boxSize='2.3rem' /> } aria-label='Back' />
-					<Avatar name={ chatter?.display_name }  mr={ 3 }/>
-					<Heading fontWeight='500' size='lg'>{ chatter?.display_name }</Heading>
-				</Flex>
+				( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) &&
+					<Flex w='100%' background='white' p={ 4 } alignItems='center'>
+						<IconButton onClick={ () => set_chat_list_open( true ) } variant='unstyled' mr={ 4 } icon={ <ChevronLeftIcon boxSize='2.3rem' /> } aria-label='Back' />
+						<Avatar name={ chatter?.display_name }  mr={ 3 }/>
+						<Heading fontWeight='500' size='lg'>{ chatter?.display_name }</Heading>
+					</Flex>
 			}
 			<Flex flexDir='column' justifyContent='space-between' >
 				<VStack spacing={ 5 } h={ ['75vh','90vh' ] } overflowY='auto'>

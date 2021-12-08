@@ -2,24 +2,42 @@ import {collection, orderBy, query, where} from "firebase/firestore";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { Container, Fade, SlideFade, VStack} from "@chakra-ui/react";
+import { Box, Container, Fade, Heading, SlideFade, VStack, Text, useBreakpoint} from "@chakra-ui/react";
 import ChatPreview from "./ChatPreview";
+import {useEffect} from "react";
+import NoChatsDialog from "./NoChatsDialog";
 
 interface ChatListProps {
 	set_chatroom : React.Dispatch<React.SetStateAction<any>>,
 	set_open: React.Dispatch<React.SetStateAction<any>>,
-	open : boolean
+	open : boolean,
+	set_no_chats : React.Dispatch<React.SetStateAction<any>>
 }
 
-const ChatList = ( { set_chatroom, open, set_open } : ChatListProps ) => {
+const ChatList = ( { set_chatroom, open, set_open, set_no_chats } : ChatListProps ) => {
 	const { current_user } = useAuth();
 	const { uid } = current_user;
 
 	const chatroom_ref = collection( db, 'chatrooms' );
 	const q = query( chatroom_ref, where( 'members_uid', 'array-contains', uid ) , orderBy( 'last_msg_at', 'desc' ));
 	const [ chats ] = useCollectionData (q, { idField: 'id' } );
-	if ( chats?.length === 0 || !open ) {
-		return null;
+
+	useEffect( () => {
+		if( chats?.length ) {
+			set_chatroom( chats[0].id )
+		}
+	}, [ chats ] );
+
+	const current_breakpoint = useBreakpoint();
+
+	if( chats?.length === 0 ) {
+		if( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) {
+			return ( <NoChatsDialog visible={ true } /> );
+		}
+
+		if( !open ) {
+			return null;
+		}
 	}
 	return (
 		<SlideFade in={ true } offsetX='-200px' transition={{ enter : { duration : 0.7 } }}>

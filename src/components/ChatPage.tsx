@@ -26,14 +26,15 @@ const ChatPage = () => {
 		w: '100%',
 		h: '100%',
 		position: 'relative',
-		display: (current_breakpoint === 'base' || current_breakpoint === 'sm' || current_breakpoint === 'md') && chat_list_open === true ? 'none' : 'initial'
+		display: ( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) && chat_list_open === true ? 'none' : 'initial'
 	}
+
+
 	return (
 		<Flex height='100vh' background='grey.100' width='100vw' >
 			<Flex background='gray.100'>
 				<Sidebar dialog_hanlder={ onOpen } set_chatroom={ set_chatroom_uid } visible={ chat_list_open } />
-				<ChatList set_chatroom={ set_chatroom_uid } open={ chat_list_open } set_open={ set_chat_list_open } />	
-				<NoChatsDialog visible={ chatroom_uid === null && (current_breakpoint === 'base' || current_breakpoint === 'sm' || current_breakpoint === 'md')} />
+				<ChatList set_chatroom={ set_chatroom_uid } open={ chat_list_open } set_open={ set_chat_list_open } set_no_chats={ set_no_chats } />
 			</Flex>
 			<Box { ...bg_props } >
 				<NoChatsDialog visible={ chatroom_uid === null } />
@@ -55,30 +56,6 @@ const ChatPage = () => {
 	);
 }
 
-interface NoChatsDialogProps {
-	visible : boolean
-}
-
-const NoChatsDialog = ( { visible } : NoChatsDialogProps ) => (
-	<Fade in={ visible }>
-		<Box
-			w={ ['2xs', 'md'] }
-			h='fit-content'
-			background='white'
-			py={ 6 }
-			px={ 8 }
-			rounded='2xl'
-			position='absolute'
-			top='50%'
-			left='30%'
-			boxShadow='lg'
-		>
-
-			<Heading fontSize='2xl' fontWeight='600' mb={ 3 }>No open chat</Heading>
-			<Text>Please click a chat on the sidebar to view messages</Text>
-		</Box>
-	</Fade>
-)
 
 
 export default ChatPage;
