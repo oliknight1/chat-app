@@ -1,4 +1,4 @@
-import { Button, Flex, VStack } from "@chakra-ui/react"
+import { Button, Fade, Flex, VStack } from "@chakra-ui/react"
 import {useHistory} from "react-router-dom";
 import {useAuth} from "../contexts/auth_context"
 import { HomeIcon, AddIcon, AccountIcon, LogOutIcon } from "../utils/icons"
@@ -25,14 +25,18 @@ const Sidebar = ( { dialog_hanlder, set_chatroom, visible } : SidebarProps ) => 
 	}
 	return (
 		<Flex h='100%' backgroundColor='teal.dark' p={ 8 } flexDir='column' justifyContent='space-between' w='6vw' zIndex={ 2 }>
-			<VStack spacing={ 8 }>
-				<Button variant='unstyled' onClick={ () => set_chatroom( null ) }><HomeIcon boxSize={ 10 } color='white' /></Button>
-				<Button variant='unstyled' onClick={ dialog_hanlder }><AddIcon boxSize={ 10 } color='white' /></Button>
-			</VStack>
-			<VStack spacing={ 8 }>
-				<AccountIcon boxSize={ 10 } color='white' />
-				<Button variant='unstyled' onClick={ handle_logout }><LogOutIcon boxSize={ 10 } color='white' /></Button>
-			</VStack>
+			<Fade in={ true }>
+				<VStack spacing={ 8 }>
+					<Button variant='unstyled' onClick={ () => set_chatroom( null ) }><HomeIcon boxSize={ 10 } color='white' /></Button>
+					<Button variant='unstyled' onClick={ dialog_hanlder }><AddIcon boxSize={ 10 } color='white' /></Button>
+				</VStack>
+			</Fade>
+			<Fade in={ true }>
+				<VStack spacing={ 8 }>
+					<AccountIcon boxSize={ 10 } color='white' />
+					<Button variant='unstyled' onClick={ handle_logout }><LogOutIcon boxSize={ 10 } color='white' /></Button>
+				</VStack>
+			</Fade>
 		</Flex>
 	)
 }
