@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text, Avatar } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text, Avatar, useBreakpoint } from "@chakra-ui/react";
 import { collection, doc, DocumentData, getDoc, limit, orderBy, query } from "firebase/firestore";
 import {useEffect, useState} from "react";
 import {useCollectionData} from "react-firebase-hooks/firestore";
@@ -25,6 +25,8 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom, set_open } : Ch
 	const { current_user } = useAuth();
 	const { uid } = current_user;
 
+	const current_breakpoint = useBreakpoint();
+
 	useEffect( () => {
 		get_doc_by_id( 'users', chatter_uid ).then( doc => {
 			set_user( {
@@ -39,7 +41,9 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom, set_open } : Ch
 
 	const handle_click = () => {
 		set_chatroom( chatroom_uid );
-		set_open( false );
+		if( current_breakpoint === 'base' || current_breakpoint === 'sm' || current_breakpoint ==='md' ) {
+			set_open( false );
+		}
 	}
 
 	return (
