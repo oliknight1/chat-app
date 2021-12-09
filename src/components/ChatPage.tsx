@@ -18,6 +18,7 @@ const ChatPage = () => {
 	const [ chat_list_open, set_chat_list_open ] = useState<boolean>( true );
 
 	const current_breakpoint = useBreakpoint()
+	console.log( current_breakpoint )
 
 	// Make sure to remove the error once the dialog is closed
 	const dialog_close_handler = () => {
@@ -29,12 +30,11 @@ const ChatPage = () => {
 		background: 'gray.100',
 		w: '100%',
 		h: '100%',
-		position: 'relative',
 		display: ( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) && chat_list_open === true ? 'none' : 'initial'
 	}
 
 	return (
-		<Flex height='100vh' background='grey.100' width='100vw' >
+		<Flex height='100vh' background='grey.100' width='100vw' overflowX='hidden' >
 			<Flex background='gray.100'>
 				<Sidebar dialog_hanlder={ onOpen } set_chatroom={ set_chatroom_uid } visible={ chat_list_open } />
 				<ChatList set_chatroom={ set_chatroom_uid } open={ chat_list_open } set_open={ set_chat_list_open } />

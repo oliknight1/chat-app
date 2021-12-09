@@ -32,7 +32,7 @@ const AddChatDialog = ( { is_open, on_close, title, error_message, set_error_mes
 							initial_ref={ initial_ref }
 							set_chatroom_uid={ set_chatroom_uid }
 							set_chat_list_open={ set_chat_list_open }
-						/> 
+						/>
 					</ModalBody>
 				</ModalContent>
 			</Modal>

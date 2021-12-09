@@ -60,12 +60,12 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom, set_open } : Ch
 			py={ 3 }
 		>
 			<Flex align='center'>
-				<Avatar name={ user.display_name } loading='lazy' mr={ 4 } w='3rem' h='3rem'/>
+				<Avatar name={ user.display_name } loading='lazy' mr={ 4 } size='lg'/>
 				<Box maxW='70%' >
-					<Heading fontSize='2xl' fontWeight='regular'>{ user.display_name }</Heading>
+					<Heading size='lg' fontWeight='regular'>{ user.display_name }</Heading>
 					{
 						latest_msg && latest_msg.length  > 0 &&
-						<Text isTruncated color='gray.500' fontWeight='light' mt={ 2 }>{ latest_msg[0].user_uid === uid ? 'You: ': `${ user.display_name.split( ' ' )[0] }: ` }{ latest_msg[0].text }</Text>
+						<Text isTruncated color='gray.500' fontWeight='light' fontSize='lg' mt={ 2 }>{ latest_msg[0].user_uid === uid ? 'You: ': `${ user.display_name.split( ' ' )[0] }: ` }{ latest_msg[0].text }</Text>
 					}
 				</Box>
 			</Flex>
