@@ -4,8 +4,6 @@ import ChatList from './ChatList';
 import {Box, Flex, Heading, useDisclosure, Text, Fade, useBreakpoint, BoxProps} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import AddChatDialog from "./AddChatDialog";
-import ChatDashboard from "./ChatDashboard";
-import NoChatsDialog from "./NoChatsDialog";
 
 const ChatPage = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,7 +34,7 @@ const ChatPage = () => {
 	return (
 		<Flex height='100vh' background='grey.100' width='100vw' overflowX='hidden' >
 			<Flex background='gray.100'>
-				<Sidebar dialog_hanlder={ onOpen } set_chatroom={ set_chatroom_uid } visible={ chat_list_open } />
+				<Sidebar dialog_hanlder={ onOpen } visible={ chat_list_open } />
 				<ChatList set_chatroom={ set_chatroom_uid } open={ chat_list_open } set_open={ set_chat_list_open } />
 			</Flex>
 			<Box { ...bg_props } >
