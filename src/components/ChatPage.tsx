@@ -1,8 +1,8 @@
 import ChatBox from "./ChatBox";
 import Sidebar from './Sidebar';
 import ChatList from './ChatList';
-import {Box, Flex, Heading, useDisclosure, Text, Fade, useBreakpoint, BoxProps} from "@chakra-ui/react";
-import {useEffect, useState} from "react";
+import {Box, Flex, useDisclosure, useBreakpoint, BoxProps} from "@chakra-ui/react";
+import {useState} from "react";
 import AddChatDialog from "./AddChatDialog";
 
 const ChatPage = () => {

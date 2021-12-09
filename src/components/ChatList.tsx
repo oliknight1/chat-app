@@ -2,7 +2,7 @@ import {collection, orderBy, query, where} from "firebase/firestore";
 import {db} from "../config/firebase";
 import {useAuth} from "../contexts/auth_context";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { Box, Container, Fade, Heading, SlideFade, VStack, Text, useBreakpoint} from "@chakra-ui/react";
+import { Container, Fade, SlideFade, VStack } from "@chakra-ui/react";
 import ChatPreview from "./ChatPreview";
 import {useEffect} from "react";
 import NoChatsDialog from "./NoChatsDialog";
@@ -28,7 +28,6 @@ const ChatList = ( { set_chatroom, open, set_open } : ChatListProps ) => {
 		}
 	}, [ chats ] );
 
-	const current_breakpoint = useBreakpoint();
 
 	if( !open ) {
 		return null;

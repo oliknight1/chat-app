@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Text, Avatar, useBreakpoint } from "@chakra-ui/react";
-import { collection, doc, DocumentData, getDoc, limit, orderBy, query } from "firebase/firestore";
+import { collection, DocumentData, limit, orderBy, query } from "firebase/firestore";
 import {useEffect, useState} from "react";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import {db} from "../config/firebase";
