@@ -24,10 +24,11 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 	const [ new_message, set_new_message ] = useState<string>( '' );
 
 	const [ chatter, set_chatter ] = useState<DocumentData>();
+	const [ chatter_loading, set_chatter_loading ] = useState<boolean>( false );
 
 	const messages_ref = collection( db, 'chatrooms', chatroom_uid, 'messages' );
 	const messages_q = query( messages_ref, orderBy( 'timestamp' ) );
-	const [ messages,loading ] = useCollectionData (messages_q, { idField: 'id' } );
+	const [ messages,messages_loading ] = useCollectionData (messages_q, { idField: 'id' } );
 
 	const { current_user } = useAuth();
 	const { uid } = current_user
@@ -47,12 +48,15 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 	const current_breakpoint = useBreakpoint();
 
 	useEffect( () => {
+		set_chatter_loading( true );
 		get_doc_by_id( 'chatrooms', chatroom_uid )
 			.then( doc => doc.data().members_uid )
 			.then( members_uid => {
 				const chatter_uid = members_uid.find( ( user_uid : string) => user_uid !== uid );
 				get_doc_by_id( 'users', chatter_uid ).then( doc => set_chatter( { id: doc.id, ...doc.data() } ) )
-			} )
+		set_chatter_loading( false )
+			} );
+
 	}, [ chatroom_uid ] )
 
 	useEffect( scroll_to_bottom, [ messages ] )
@@ -81,19 +85,19 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 		}
 
 	}
+	console.log( chatter?.display_name )
 
 	const handle_new_message = ( e : ChangeEvent<HTMLInputElement> ) => {
 		e.preventDefault();
 		set_new_message( e.target.value );
 	}
-	console.log( chatter )
 
 	return (
 		<>
-			<SlideFade offsetY={ -100 } in={ chatter !== undefined }>
+			<SlideFade offsetY={ -100 } in={ !chatter_loading } delay={ { enter : 0.1 } }>
 				<Flex w='100%' background='white' p={ 4 } alignItems='center' h={ ['10vh', '5vh'] }>
 					{
-						chatter &&
+						chatter && !messages_loading && !chatter_loading &&
 							<>
 								{
 									( ['base', 'sm', 'md'].includes( current_breakpoint as string ) ) &&
@@ -109,7 +113,7 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 
 			<Flex flexDir='column' justifyContent='space-between' >
 				<VStack spacing={ 5 } h={ ['75vh','90vh' ] } overflowY='auto'>
-					<Fade in={ loading }>
+					<Fade in={ messages_loading }>
 						<Spinner position='absolute' top='50%' left='46%' />
 					</Fade>
 					{ messages &&
@@ -122,9 +126,8 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 							} )
 					}
 					<Box ref={ last_msg_ref } w={[ '100vw', '100%' ]} />
-
 				</VStack>
-				<Fade in={ !loading }>
+				<Fade in={ !messages_loading }>
 					<form onSubmit={ message_form_handler }>
 						<Flex px={ [5,10] }>
 							<InputGroup mt={ [ 10, 0 ] }>
