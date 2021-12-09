@@ -47,10 +47,8 @@ const ChatList = ( { set_chatroom, open, set_open } : ChatListProps ) => {
 					{
 
 					chats?.length === 0 &&
-						<NoChatsDialog /> 
+						<NoChatsDialog />
 					}
-		
-					
 				{
 					chats?.map( chat => {
 						const chatter_uid = chat.members_uid.filter( ( member_uid : string ) => member_uid !== uid );

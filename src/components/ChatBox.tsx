@@ -95,7 +95,7 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 	return (
 		<>
 			<SlideFade offsetY={ -100 } in={ !chatter_loading } delay={ { enter : 0.1 } }>
-				<Flex w='100%' background='white' p={ 4 } alignItems='center' h={ ['10vh', '5vh'] }>
+				<Flex w='100%' background='white' p={ 4 } alignItems='center' maxH='xs' >
 					{
 						chatter && !messages_loading && !chatter_loading &&
 							<>
@@ -112,7 +112,7 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 			</SlideFade>
 
 			<Flex flexDir='column' justifyContent='space-between' >
-				<VStack spacing={ 5 } h={ ['75vh','90vh' ] } overflowY='auto'>
+				<VStack spacing={ 5 } h={ ['75vh', null, '80vh', '90vh' ] } overflowY='auto'>
 					<Fade in={ messages_loading }>
 						<Spinner position='absolute' top='50%' left='46%' />
 					</Fade>
@@ -128,9 +128,9 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 					<Box ref={ last_msg_ref } w={[ '100vw', '100%' ]} />
 				</VStack>
 				<Fade in={ !messages_loading }>
-					<form onSubmit={ message_form_handler }>
+					<form onSubmit={ message_form_handler } style={{ marginBottom: '20px' }}>
 						<Flex px={ [5,10] }>
-							<InputGroup mt={ [ 10, 0 ] }>
+							<InputGroup>
 								<Input
 									type='text'
 									_hover={{ backgroundColor: 'white' }}

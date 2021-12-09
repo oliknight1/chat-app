@@ -23,7 +23,7 @@ const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessage
 				<Flex flexDir={ received ? 'row' : 'row-reverse' } alignItems='center'>
 					 <Avatar name={ user?.display_name } loading='lazy' w={ [ '2.8rem', '3.5rem' ] } h={ [ '2.8rem', '3.5rem' ] } mx={ [ 2, 5 ] }/>
 						<Box pos='relative' backgroundColor={ received ? 'teal.700' : 'teal.dark' } my={ 5 } w='fit-content' py={ [2,3] } px={ [ 3, 6 ] } borderRadius='xl' >
-							<Text color='white'>{ message }</Text>
+							<Text color='white' fontSize='2xl'>{ message }</Text>
 							<Text
 								pos='absolute'
 								bottom='-60%'
