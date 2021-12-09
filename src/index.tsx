@@ -20,7 +20,7 @@ const theme = extendTheme(
 						borderWidth: thickness,
 						borderBottomColor: emptyColor,
 						borderLeftColor: emptyColor,
-						transition 
+						transition
 
 					}
 				},

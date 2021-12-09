@@ -12,7 +12,6 @@ import Register from './components/Register';
 import AuthProvider from './contexts/auth_context';
 
 const App = () => {
-	const pathname = window.location.pathname;
 	return (
 		<AuthProvider>
 			<Router>

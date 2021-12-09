@@ -85,7 +85,6 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 		}
 
 	}
-	console.log( chatter?.display_name )
 
 	const handle_new_message = ( e : ChangeEvent<HTMLInputElement> ) => {
 		e.preventDefault();

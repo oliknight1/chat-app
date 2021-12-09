@@ -16,7 +16,6 @@ const ChatPage = () => {
 	const [ chat_list_open, set_chat_list_open ] = useState<boolean>( true );
 
 	const current_breakpoint = useBreakpoint()
-	console.log( current_breakpoint )
 
 	// Make sure to remove the error once the dialog is closed
 	const dialog_close_handler = () => {
