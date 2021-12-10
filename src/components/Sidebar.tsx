@@ -14,7 +14,7 @@ const Sidebar = ( { dialog_hanlder, visible } : SidebarProps ) => {
 	const handle_logout = async () => {
 		try {
 			await logout();
-			history.push( 'login' )
+			history.push( './#login' )
 		} catch (error) {
 			console.log( error )
 		}
