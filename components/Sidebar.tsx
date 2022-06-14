@@ -4,11 +4,11 @@ import {useAuth} from "../contexts/auth_context"
 import { AddIcon, LogOutIcon } from "../utils/icons"
 
 interface SidebarProps {
-	dialog_hanlder : () => void,
+	dialog_handler : () => void,
 	visible: boolean
 }
 
-const Sidebar = ( { dialog_hanlder, visible } : SidebarProps ) => {
+const Sidebar = ( { dialog_handler, visible } : SidebarProps ) => {
 	const { logout } = useAuth();
 	const router = useRouter();
 	const handle_logout = async () => {
@@ -26,7 +26,7 @@ const Sidebar = ( { dialog_hanlder, visible } : SidebarProps ) => {
 		<Flex h='100%' backgroundColor='teal.dark' p={ 8 } flexDir='column' justifyContent='space-between' w='6vw' zIndex={ 2 }>
 			<Fade in={ true }>
 				<VStack spacing={ 8 }>
-					<Button variant='unstyled' onClick={ dialog_hanlder }><AddIcon boxSize={ 10 } color='white' /></Button>
+					<Button variant='unstyled' onClick={ dialog_handler }><AddIcon boxSize={ 10 } color='white' /></Button>
 				</VStack>
 			</Fade>
 			<Fade in={ true }>

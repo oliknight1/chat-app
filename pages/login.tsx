@@ -30,12 +30,13 @@ const Login = () => {
 		try {
 			set_loading( true );
 			await login( email, password );
-		set_loading( false );
+			set_loading( false );
 			router.push( '/' );
 		} catch ( e ) {
 			const code = ( e as firebase.FirebaseError ).code
+			console.error(e)
 			set_error( handle_auth_code( code ) )
-		set_loading( false );
+			set_loading( false );
 		}
 
 	}

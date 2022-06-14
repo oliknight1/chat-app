@@ -65,7 +65,7 @@ const ChatPreview = ( { chatter_uid, chatroom_uid, set_chatroom, set_open } : Ch
 					<Heading size='lg' fontWeight='regular'>{ user.display_name }</Heading>
 					{
 						latest_msg && latest_msg.length  > 0 &&
-						<Text isTruncated color='gray.500' fontWeight='light' fontSize='lg' mt={ 2 }>{ latest_msg[0].user_uid === uid ? 'You: ': `${ user.display_name.split( ' ' )[0] }: ` }{ latest_msg[0].text }</Text>
+						<Text color='gray.500' fontWeight='light' fontSize='lg' mt={ 2 }>{ latest_msg[0].user_uid === uid ? 'You: ': `${ user.display_name.split( ' ' )[0] }: ` }{ latest_msg[0].text }</Text>
 					}
 				</Box>
 			</Flex>
