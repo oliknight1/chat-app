@@ -24,8 +24,9 @@ const UserAuthTextInput = ( { id, label, type, icon, state, set_state, placehold
 				<InputLeftElement
 					top='10%'
 					pointerEvents='none'
-					children={ icon }
-				/>
+				>
+					{icon}
+				</InputLeftElement>
 				<Input variant='outline' size='lg' type={ type } placeholder={ placeholder } value={ state } onChange={ handle_change } />
 			</InputGroup>
 		</FormControl>

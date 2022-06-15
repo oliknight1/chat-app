@@ -15,9 +15,9 @@ const UserAuthForm = ( { children, title, button_text, handle_submit, error, loa
 	let link_element;
 	const router = useRouter();
 	if( router.pathname === '/login' ) {
-		link_element = <Text>Don't have an account? Create one <Link href='./#register' color='teal.dark'>here!</Link></Text>
+		link_element = <Text>Don&#39;t have an account? Create one <Link href='/register' color='teal.dark'>here!</Link></Text>
 	} else {
-		link_element = <Text>Already have an account? Sign in <Link href='./#login' color='teal.dark'>here!</Link></Text>
+		link_element = <Text>Already have an account? Sign in <Link href='/login' color='teal.dark'>here!</Link></Text>
 	}
 	return (
 		<Box bg='white' w={ ['sm', 'lg'] } margin='0 auto' boxShadow='2xl' p={ 10 } rounded='2xl' position='relative'>
