@@ -143,7 +143,9 @@ const ChatBox = ( { chatroom_uid, set_chat_list_open } : ChatBoxProps ) => {
 									placeholder='Enter a message'
 									mr={ 3 }
 								/>
-								<InputRightElement right={ ['20px', '40px'] } top='10%' children={ <IconButton type='submit' variant='unstyled' _hover={{ transform: 'scale( 1.1 )' }} icon={<SendIcon width='30px' height='30px' color='teal.dark'/> } aria-label='Send message'/>} />
+								<InputRightElement right={ ['20px', '40px'] } top='10%' >
+									<IconButton type='submit' variant='unstyled' _hover={{ transform: 'scale( 1.1 )' }} icon={<SendIcon width='30px' height='30px' color='teal.dark'/> } aria-label='Send message'/>
+								</InputRightElement>
 							</InputGroup>
 						</Flex>
 					</form>
