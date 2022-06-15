@@ -32,12 +32,12 @@ const ChatPage = () => {
 	}
 
 	return (
-		<Flex height='100vh' background='grey.100' width='100vw' overflowX='hidden' >
+		<Flex maxH='100vh' width='100vw' overflow='hidden' >
 			<Flex background='gray.100'>
-				<Sidebar dialog_hanlder={ onOpen } visible={ chat_list_open } />
+				<Sidebar dialog_handler={ onOpen } visible={ chat_list_open } />
 				<ChatList set_chatroom={ set_chatroom_uid } open={ chat_list_open } set_open={ set_chat_list_open } />
 			</Flex>
-			<Box { ...bg_props } >
+			<Box { ...bg_props } h='100vh'>
 				{
 					chatroom_uid !== null &&
 						<ChatBox chatroom_uid={ chatroom_uid } set_chat_list_open={ set_chat_list_open } />

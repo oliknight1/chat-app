@@ -26,7 +26,7 @@ const ChatMessage = ( { message, received, sender_uid, timestamp } : ChatMessage
 							<Text color='white' fontSize='2xl'>{ message }</Text>
 							<Text
 								pos='absolute'
-								bottom='-60%'
+								bottom='-50%'
 								right={ received ? '75%' : 0 }
 								mt={ -2 }
 								textAlign={ received ? 'left' : 'right' }
